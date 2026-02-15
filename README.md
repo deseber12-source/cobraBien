@@ -22,7 +22,7 @@ CobraBien es un conjunto de herramientas web gratuitas diseñadas por cobradores
 
 ## 📖 Cómo usar
 
-1. Visita [cobrabien.github.io](https://cobrabien.github.io)
+1. Visita https://deseber12-source.github.io/cobraBien/
 2. Elige la herramienta que necesitas.
 3. Ingresa los datos solicitados.
 4. Genera, copia y pega en tu canal de comunicación.
