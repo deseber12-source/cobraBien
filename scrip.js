@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
 /**
  * CobraBien.com - Herramientas profesionales de cobranza
  * JavaScript principal: cálculos, generación de mensajes, modo oscuro, clipboard.
@@ -7,6 +8,9 @@
 // 1. MODO OSCURO / CLARO con localStorage
 // ==============================================
 const themeToggle = document.getElementById('theme-toggle');
+if (!themeToggle) {
+    console.warn('theme-toggle button not found in DOM');
+}
 const body = document.body;
 
 // Cargar tema guardado
@@ -19,12 +23,14 @@ if (savedTheme === 'dark') {
 }
 
 // Función para alternar tema
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark');
-    const isDark = body.classList.contains('dark');
-    themeToggle.textContent = isDark ? '☀️' : '🌙';
-    localStorage.setItem('cobraBienTheme', isDark ? 'dark' : 'light');
-});
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const isDark = body.classList.contains('dark');
+        themeToggle.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('cobraBienTheme', isDark ? 'dark' : 'light');
+    });
+}
 
 // ==============================================
 // 2. HERRAMIENTA 1: Calculadora de descuento
@@ -227,8 +233,14 @@ scriptInputs.forEach(input => {
 actualizarScript();
 
 // Botón "Abrir calculadora" - scroll suave a la sección de calculadoras
-document.getElementById('btn-abrir-calculadora').addEventListener('click', () => {
-    document.getElementById('calculadoras').scrollIntoView({ behavior: 'smooth' });
+const btnAbrirCalc = document.getElementById('btn-abrir-calculadora');
+if (btnAbrirCalc) {
+    btnAbrirCalc.addEventListener('click', () => {
+        const calcSection = document.getElementById('calculadoras');
+        if (calcSection) {
+            calcSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
 });
 
 // ==============================================
@@ -281,4 +293,5 @@ function enviarSugerencia() {
 // Asignar eventos a botones "Enviar sugerencia"
 document.querySelectorAll('.btn-sugerencia').forEach(btn => {
     btn.addEventListener('click', enviarSugerencia);
+});
 });
