@@ -546,3 +546,7 @@ body.dark {
     bottom: 80px;
     pointer-events: none;
 }
+
+body.dark .logo {
+    filter: brightness(0) invert(1); /* hace el logo blanco */
+}
