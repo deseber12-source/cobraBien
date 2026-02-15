@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de mensajes Email/WhatsApp | CobraBien</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <meta name="description" content="Genera mensajes personalizados masivos desde Excel para cobranza.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- SheetJS para leer Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <script src="generador.js" defer></script>
+    <style>
+        /* Estilos adicionales para el wizard */
+        .wizard {
+            margin-top: 2rem;
+        }
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.5;
+            position: relative;
+            min-width: 120px;
+        }
+        .step.active {
+            opacity: 1;
+            color: var(--primary-blue);
+        }
+        .step.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            border-radius: 3px;
+        }
+        .step.completed {
+            opacity: 0.8;
+            color: var(--accent-green);
+        }
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+        }
+        .variables-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .variable-item {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .variable-item .badge {
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        .variable-item .used {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+        .file-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .file-upload:hover {
+            border-color: var(--primary-blue);
+        }
+        .file-upload input {
+            display: none;
+        }
+        .preview-table {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .preview-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .preview-table th, .preview-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .result-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .result-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .btn-sm {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            min-width: auto;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        #reiniciar-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            margin-left: auto;
+        }
+        #reiniciar-btn:hover {
+            background-color: #b02a37;
+        }
+        .sugerencia {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 0.8rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary-blue);
+        }
+        #navegacion-resultados {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #contador-fila {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo-img">
+                    <img src="img/logo.png" alt="CobraBien" class="logo">
+                </div>
+                <div class="logo-area">
+                    <h1>CobraBien</h1>
+                    <p class="subtitle">Generador de mensajes Email y WhatsApp</p>
+                </div>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo claro/oscuro">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <a href="index.html" class="back-link">← Volver a herramientas principales</a>
+
+        <div class="wizard">
+            <!-- Indicador de pasos con botón de reinicio -->
+            <div class="steps">
+                <div class="step active" data-step="1">1. Configurar variables</div>
+                <div class="step" data-step="2">2. Crear plantilla</div>
+                <div class="step" data-step="3">3. Subir archivo</div>
+                <div class="step" data-step="4">4. Resultados</div>
+                <button id="reiniciar-btn" class="btn-sm">↺ Reiniciar</button>
+            </div>
+
+            <!-- Paso 1: Configuración inicial -->
+            <div class="step-content active" id="step1">
+                <h2>Configuración inicial</h2>
+                <p>Define las variables que usarás en tus mensajes. Las columnas de tu Excel deben coincidir con estos nombres (no importan mayúsculas, espacios o guiones bajos).</p>
+                <p>La variable <strong>correo</strong> puede ser la dirección de email o el número de teléfono, según el medio que uses (WhatsApp o email).</p>
+
+                <h3>Variables obligatorias</h3>
+                <div class="variables-list">
+                    <div class="variable-item">
+                        <span class="badge">①</span>
+                        <input type="text" id="var-correo" value="correo" placeholder="columna correo o teléfono" required>
+                    </div>
+                    <div class="variable-item">
+                        <span class="badge">②</span>
+                        <input type="text" id="var-nombre" value="nombre" placeholder="columna nombre" required>
+                    </div>
+                </div>
+
+                <h3>Variables adicionales</h3>
+                <div id="variables-adicionales-container">
+                    <!-- Aquí se agregarán dinámicamente -->
+                </div>
+                <button type="button" id="agregar-variable" class="btn-sm">➕ Añadir variable</button>
+
+                <!-- Consejos anti-spam -->
+                <div class="sugerencia">
+                    📱 <strong>Consejos para evitar bloqueos:</strong><br>
+                    • Para <strong>WhatsApp</strong>: evita enviar muchos mensajes seguido, personaliza cada mensaje y no incluyas enlaces sospechosos. Usa la app de escritorio o WhatsApp Business para envíos controlados.<br>
+                    • Para <strong>Email</strong>: usa un asunto personalizado y evita palabras como "urgente", "ganador", "promoción". Considera un servicio de email marketing si envías más de 50 correos.
+                </div>
+
+                <div class="button-group" style="margin-top: 2rem;">
+                    <button id="step1-next" class="btn-generar">Siguiente: Crear plantilla →</button>
+                </div>
+            </div>
+
+            <!-- Paso 2: Plantilla -->
+            <div class="step-content" id="step2">
+                <h2>Redacta tu plantilla</h2>
+                <p>Usa las variables con doble llave, por ejemplo: <code>{{nombre}}</code>, <code>{{saldo}}</code>.</p>
+
+                <div class="input-group">
+                    <label>Mensaje:</label>
+                    <textarea id="plantilla-mensaje" rows="10" placeholder="Escribe aquí tu plantilla..."></textarea>
+                </div>
+
+                <div class="sugerencia">
+                    💡 <strong>Sugerencia:</strong> Si vas a enviar por email, recuerda personalizar el asunto para evitar spam. Esta herramienta solo genera el cuerpo del mensaje.
+                </div>
+
+                <div id="checklist-variables">
+                    <h3>Variables disponibles:</h3>
+                    <div id="variables-disponibles" class="variables-list"></div>
+                </div>
+
+                <div class="button-group">
+                    <button id="step2-prev" class="btn-limpiar">← Anterior</button>
+                    <button id="step2-next" class="btn-generar">Siguiente: Subir archivo →</button>
+                </div>
+            </div>
+
+            <!-- Paso 3: Subir archivo -->
+            <div class="step-content" id="step3">
+                <h2>Sube tu archivo Excel o CSV</h2>
+                <p>Selecciona un archivo con las columnas que definiste. Máximo 1000 filas (sin contar encabezados).</p>
+
+                <div class="file-upload" id="file-upload-area">
+                    <input type="file" id="file-input" accept=".xlsx,.xls,.csv">
+                    <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">Formatos soportados: .xlsx, .xls, .csv</p>
+                </div>
+
+                <div id="preview-container" style="display: none;">
+                    <h3>Vista previa (primeras 5 filas)</h3>
+                    <div class="preview-table" id="preview-table"></div>
+                    <p id="row-count"></p>
+                </div>
+
+                <div class="button-group">
+                    <button id="step3-prev" class="btn-limpiar">← Anterior</button>
+                    <button id="step3-next" class="btn-generar" disabled>Siguiente: Generar mensajes →</button>
+                </div>
+            </div>
+
+            <!-- Paso 4: Resultados con navegación fila por fila -->
+            <div class="step-content" id="step4">
+                <h2>Mensajes generados</h2>
+                <p>Aquí tienes los mensajes personalizados. Navega entre las filas y copia lo que necesites.</p>
+                <p><small>ℹ️ El campo "correo" corresponde a la columna que definiste; puede ser email o teléfono según tu necesidad.</small></p>
+
+                <div id="navegacion-resultados">
+                    <button id="resultado-anterior" class="btn-sm" disabled>← Anterior</button>
+                    <span id="contador-fila">Fila 1 de 0</span>
+                    <button id="resultado-siguiente" class="btn-sm" disabled>Siguiente →</button>
+                </div>
+
+                <div id="resultado-actual" class="result-item">
+                    <!-- Se llena con JS -->
+                </div>
+
+                <div class="button-group" style="margin-top: 1rem;">
+                    <button id="copiar-todos-resumen" class="btn-copiar">📋 Copiar todos los resúmenes</button>
+                </div>
+
+                <div class="button-group" style="margin-top: 2rem;">
+                    <button id="step4-prev" class="btn-limpiar">← Anterior</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden">✅ Mensaje copiado</div>
+
+    <footer>
+        <p class="footer-sugerencia">💬 ¿Te sirvió esta herramienta? Ayúdanos a mejorar enviando tu sugerencia por WhatsApp</p>
+        <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
+        <p class="footer-credito">Creado por Ismael Palencia, 2026</p>
+    </footer>
+</body>
+</html>
