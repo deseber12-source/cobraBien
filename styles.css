@@ -1,329 +1,56 @@
-/* ===== VARIABLES MODO CLARO (por defecto) ===== */
-:root {
-    --bg-color: #F3F4F6;
-    --card-bg: #FFFFFF;
-    --text-color: #111827;
-    --primary-blue: #1E3A8A;
-    --accent-green: #16A34A;
-    --border-color: #E5E7EB;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --transition: 0.2s ease;
+body{
+
+font-family:Arial;
+background:#f3f4f6;
+color:#111;
+
 }
 
-/* ===== VARIABLES MODO OSCURO ===== */
-body.dark {
-    --bg-color: #030712;
-    --card-bg: #111827;
-    --text-color: #F9FAFB;
-    --primary-blue: #3B82F6;
-    --accent-green: #22C55E;
-    --border-color: #1F2937;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+header{
+
+background:#1e3a8a;
+color:white;
+padding:20px;
+
 }
 
-/* ===== ESTILOS BASE ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    transition: background-color var(--transition), border-color var(--transition);
+section{
+
+background:white;
+padding:20px;
+margin:20px;
+
+border-radius:10px;
+
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.5;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+textarea{
+
+width:100%;
+height:150px;
+
 }
 
-/* ===== HEADER ===== */
-header {
-    background-color: var(--card-bg);
-    box-shadow: var(--shadow);
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+button{
+
+background:#16a34a;
+color:white;
+border:none;
+padding:10px;
+margin:5px;
+cursor:pointer;
+
 }
 
-.header-content {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.dark{
+
+background:#030712;
+color:white;
+
 }
 
-.logo-area h1 {
-    color: var(--primary-blue);
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-}
+.dark section{
 
-.subtitle {
-    color: var(--text-color);
-    opacity: 0.8;
-    font-size: 0.9rem;
-}
+background:#111827;
 
-#theme-toggle {
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 2rem;
-    padding: 0.5rem 1rem;
-    font-size: 1.2rem;
-    cursor: pointer;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    transition: var(--transition);
-}
-
-#theme-toggle:hover {
-    opacity: 0.8;
-    transform: scale(0.98);
-}
-
-/* ===== MAIN Y GRID ===== */
-main {
-    max-width: 1280px;
-    margin: 2rem auto;
-    padding: 0 2rem;
-    flex: 1;
-}
-
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
-    align-items: start;
-}
-
-/* Tarjeta que ocupa todo el ancho (script) */
-.card-full {
-    grid-column: 1 / -1;
-}
-
-/* Tarjeta de "próximamente" */
-.card-coming {
-    opacity: 0.9;
-    background-color: var(--card-bg);
-    border: 2px dashed var(--border-color);
-}
-
-/* ===== TARJETAS ===== */
-.card {
-    background-color: var(--card-bg);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
-    transition: transform var(--transition), box-shadow var(--transition);
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.card h2 {
-    color: var(--primary-blue);
-    font-size: 1.5rem;
-    font-weight: 600;
-    border-bottom: 2px solid var(--accent-green);
-    padding-bottom: 0.5rem;
-}
-
-/* ===== INPUTS ===== */
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-}
-
-.input-group label {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--text-color);
-    opacity: 0.9;
-}
-
-.input-group input {
-    padding: 0.6rem 1rem;
-    border-radius: 0.8rem;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-.input-group input:focus {
-    outline: none;
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-/* Grid interno para script (2 columnas en desktop) */
-.script-inputs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-/* ===== RESULTADOS Y MENSAJES ===== */
-.resultado {
-    background-color: var(--bg-color);
-    padding: 1rem;
-    border-radius: 1rem;
-    border-left: 4px solid var(--accent-green);
-}
-
-.resultado p {
-    margin: 0.2rem 0;
-    font-weight: 500;
-}
-
-.mensaje-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.mensaje-preview label {
-    font-weight: 600;
-    color: var(--primary-blue);
-}
-
-.mensaje-preview textarea {
-    padding: 0.8rem;
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    resize: vertical;
-    font-family: inherit;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    width: 100%;
-}
-
-.mensaje-preview textarea:focus {
-    outline: none;
-    border-color: var(--primary-blue);
-}
-
-/* ===== BOTONES ===== */
-.button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 0.5rem;
-}
-
-button {
-    padding: 0.6rem 1.2rem;
-    border-radius: 2rem;
-    border: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: var(--transition);
-    background-color: var(--primary-blue);
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1 1 auto;
-    min-width: 120px;
-    border: 1px solid transparent;
-}
-
-button:hover {
-    opacity: 0.9;
-    transform: scale(0.98);
-}
-
-button.btn-copiar {
-    background-color: var(--accent-green);
-    color: white;
-}
-
-button.btn-wsp {
-    background-color: #25D366; /* Color oficial WhatsApp */
-    color: white;
-}
-
-button.btn-sugerencia {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-}
-
-button.btn-sugerencia:hover {
-    background-color: var(--border-color);
-}
-
-button:disabled, .btn-disabled {
-    background-color: var(--border-color);
-    color: var(--text-color);
-    opacity: 0.6;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Botón "Abrir calculadora" específico */
-#btn-abrir-calculadora {
-    background-color: var(--primary-blue);
-}
-
-/* ===== COMING SOON ===== */
-.coming-soon-text {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-blue);
-    text-align: center;
-    margin: 1rem 0 0.5rem;
-}
-
-.coming-soon-desc {
-    text-align: center;
-    opacity: 0.8;
-    margin-bottom: 1rem;
-}
-
-/* ===== FOOTER ===== */
-footer {
-    text-align: center;
-    padding: 2rem;
-    background-color: var(--card-bg);
-    border-top: 1px solid var(--border-color);
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-    header {
-        padding: 1rem;
-    }
-    main {
-        padding: 0 1rem;
-    }
-    .tools-grid {
-        grid-template-columns: 1fr;
-    }
-    .button-group button {
-        flex: 1 1 100%;
-    }
-    .script-inputs-grid {
-        grid-template-columns: 1fr;
-    }
 }
