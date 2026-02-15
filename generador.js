@@ -176,8 +176,30 @@
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
+                let data;
+                // Si es CSV, podríamos necesitar convertir a UTF-8
+                if (file.name.endsWith('.csv')) {
+                    // Leer como texto y luego convertir a UTF-8
+                    const csvText = e.target.result;
+                    // Convertir a UTF-8 si no lo está (aquí asumimos que el navegador ya lo decodificó bien)
+                    // Pero para asegurar, usamos TextDecoder si es necesario
+                    // Lo más simple: asumir que FileReader ya devuelve texto en UTF-8
+                    data = csvText;
+                } else {
+                    // Para Excel, usar el array buffer
+                    const arrayBuffer = e.target.result;
+                    data = new Uint8Array(arrayBuffer);
+                }
+
+                let workbook;
+                if (typeof data === 'string') {
+                    // Es CSV, leer como string
+                    workbook = XLSX.read(data, { type: 'string' });
+                } else {
+                    // Es Excel, leer como array
+                    workbook = XLSX.read(data, { type: 'array' });
+                }
+
                 const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                 const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1, defval: '' });
                 if (rows.length < 2) {
@@ -235,7 +257,12 @@
                 console.error(error);
             }
         };
-        reader.readAsArrayBuffer(file);
+
+        if (file.name.endsWith('.csv')) {
+            reader.readAsText(file, 'UTF-8'); // Forzar UTF-8 para CSV
+        } else {
+            reader.readAsArrayBuffer(file);
+        }
     }
 
     function mostrarPreview() {
@@ -245,7 +272,11 @@
         html += '</tr></thead><tbody>';
         previewRows.forEach(row => {
             html += '<tr>';
-            state.cabecerasOriginales.forEach(c => html += `<td>${row[c]}</td>`);
+            state.cabecerasOriginales.forEach(c => {
+                let valor = row[c];
+                if (valor === undefined || valor === null) valor = '';
+                html += `<td>${valor}</td>`;
+            });
             html += '</tr>';
         });
         html += '</tbody></table>';
@@ -396,7 +427,7 @@
 
     // Botón sugerencia
     document.getElementById('sugerencia-btn').addEventListener('click', () => {
-        window.open('https://wa.me/5210000000000?text=Hola%20equipo%20CobraBien,%20quiero%20enviarles%20una%20sugerencia%20sobre%20el%20generador%20de%20mensajes:', '_blank');
+        window.open('https://wa.me/521234567890?text=Hola%20equipo%20CobraBien,%20quiero%20enviarles%20una%20sugerencia%20sobre%20el%20generador%20de%20mensajes:', '_blank');
     });
 
 })();
