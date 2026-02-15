@@ -6,17 +6,97 @@
     <title>Herramientas de Cobranza Profesional | CobraBien</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Calculadoras de deuda, scripts de llamada, confirmaciones y recordatorios. Herramientas gratis para cobradores en México.">
-    <!-- Preconectar a recursos externos (ninguno por ahora) -->
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <style>
+        /* Ajustes adicionales para la página principal */
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-green) 100%);
+            color: white;
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+        }
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .about {
+            background-color: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .about h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .social-links a:hover {
+            transform: scale(1.1);
+        }
+        .social-links img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        body.dark .social-links img {
+            background-color: #333;
+        }
+        .tool-highlight {
+            background: linear-gradient(145deg, var(--card-bg), var(--bg-color));
+            border: 2px solid var(--accent-green);
+        }
+        .tool-highlight .btn-generar {
+            background-color: var(--accent-green);
+            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+        }
+        .coming-soon-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .coming-soon-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .coming-soon-list li:last-child {
+            border-bottom: none;
+        }
+        .coming-soon-list span {
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-content">
             <div class="logo-container">
-                <!-- Espacio para logo (imagen) -->
-                <div class="logo-img" aria-label="Logo CobraBien" role="img">
-                    <img src="img/logo.png" alt="CobraBien" class="logo">
+                <div class="logo-img">
+                    <img src="img/logo_sinfondo.png" alt="CobraBien" class="logo">
                 </div>
                 <div class="logo-area">
                     <h1>CobraBien</h1>
@@ -29,6 +109,19 @@
     </header>
 
     <main>
+        <!-- Sección hero / bienvenida -->
+        <div class="hero">
+            <h2>¡Cobra más y mejor con nuestras herramientas!</h2>
+            <p>Diseñadas por y para profesionales de la cobranza en México. Fáciles, rápidas y efectivas.</p>
+        </div>
+
+        <!-- Quiénes somos -->
+        <div class="about">
+            <h3>¿Quiénes somos?</h3>
+            <p>En <strong>CobraBien</strong> sabemos lo difícil que es la cobranza. Por eso creamos herramientas que te ahorran tiempo y te ayudan a comunicarte mejor con tus clientes. Nuestro objetivo es formar una comunidad de cobradores profesionales que compartan experiencias y mejoren sus resultados.</p>
+            <p><strong>Próximamente:</strong> herramientas para vendedores, generadores de SMS, integración con WhatsApp API y mucho más. ¡Estamos construyendo esto contigo!</p>
+        </div>
+
         <section id="calculadoras" class="tools-grid">
             <!-- HERRAMIENTA 1: Calculadora de descuento -->
             <article class="card" id="tool-descuento">
@@ -160,7 +253,7 @@
                 </div>
             </article>
 
-            <!-- HERRAMIENTA 5: Recordatorio de pago -->
+            <!-- HERRAMIENTA 5: Recordatorio de pago (CORREGIDO) -->
             <article class="card" id="tool-recordatorio">
                 <h2>Recordatorio de pago</h2>
                 <div class="input-group">
@@ -186,7 +279,7 @@
                 </div>
             </article>
 
-            <!-- HERRAMIENTA 6: Script de llamada (ahora al final) -->
+            <!-- HERRAMIENTA 6: Script de llamada -->
             <article class="card card-full" id="tool-script">
                 <h2>Generador de script de llamada</h2>
                 <div class="script-inputs-grid">
@@ -208,21 +301,33 @@
                 </div>
             </article>
 
-            <!-- HERRAMIENTA 7: Próximamente (Generador de mensajes) -->
+            <!-- HERRAMIENTA 7: Generador de mensajes (con más emoción) -->
+            <article class="card tool-highlight" id="tool-generador">
+                <h2>✨ Generador de mensajes masivos ✨</h2>
+                <p>¿Cansado de escribir uno por uno? Con esta herramienta puedes crear cientos de mensajes personalizados en segundos desde un Excel.</p>
+                <div style="margin: 1.5rem 0; text-align: center;">
+                    <a href="generador-mensajes.html" class="btn-generar" style="text-decoration: none; display: inline-block; font-size: 1.2rem; padding: 1rem 2rem;">¡Pruébalo ahora! →</a>
+                </div>
+                <div class="sugerencia" style="background: var(--bg-color); padding: 1rem; border-radius: 1rem;">
+                    💬 Compatible con WhatsApp y Email. Solo sube tu Excel, escribe la plantilla y listo.
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">➕ Más de 100 usuarios ya lo están usando.</p>
+            </article>
+
+            <!-- HERRAMIENTA 8: Próximamente (ampliada) -->
             <article class="card card-coming" id="tool-coming">
-                <h2>Generador de mensajes WhatsApp y Email</h2>
-                <p class="coming-soon-text">¡Ya está disponible!</p>
-                <p class="coming-soon-desc">Crea mensajes personalizados masivos desde Excel.</p>
-                <a href="generador-mensajes.html" class="btn-generar" style="text-decoration:none; display:inline-block;">Probar ahora</a>
+                <h2>🚀 Próximamente</h2>
+                <ul class="coming-soon-list">
+                    <li><span>🧮</span> Calculadora de intereses moratorios</li>
+                    <li><span>📱</span> Generador de SMS masivos</li>
+                    <li><span>💬</span> Integración con WhatsApp API (con tu propio número)</li>
+                    <li><span>📊</span> Dashboard de gestión de cobranza</li>
+                    <li><span>🤝</span> Herramientas para vendedores</li>
+                </ul>
+                <p class="coming-soon-desc">¿Tienes alguna sugerencia? ¡Escríbenos por WhatsApp!</p>
             </article>
         </section>
     </main>
-
-    <footer>
-        <p class="footer-sugerencia">💬 ¿Te sirvieron estas herramientas? Ayúdanos a mejorar enviando tu sugerencia por WhatsApp</p>
-        <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
-        <p class="footer-credito">Creado por Ismael Palencia, 2026</p>
-    </footer>
 
     <!-- Menú flotante de navegación rápida -->
     <nav class="float-menu" id="floatMenu">
@@ -233,11 +338,42 @@
             <li><a href="#tool-confirmacion" class="menu-item" data-tool="confirmacion" title="Confirmación">✅</a></li>
             <li><a href="#tool-recordatorio" class="menu-item" data-tool="recordatorio" title="Recordatorio">⏰</a></li>
             <li><a href="#tool-script" class="menu-item" data-tool="script" title="Script">📞</a></li>
-            <li><a href="#tool-coming" class="menu-item" data-tool="generador" title="Generador mensajes">💬</a></li>
+            <li><a href="#tool-generador" class="menu-item" data-tool="generador" title="Generador mensajes">📧</a></li>
+            <li><a href="#tool-coming" class="menu-item" data-tool="coming" title="Próximamente">🚧</a></li>
         </ul>
     </nav>
 
-    <!-- Contenedor para notificaciones toast -->
+    <!-- Toast para notificaciones -->
     <div id="toast" class="toast hidden">✅ Mensaje copiado</div>
+
+    <footer>
+        <p class="footer-sugerencia">💬 ¿Te sirvieron estas herramientas? Ayúdanos a mejorar enviando tu sugerencia por WhatsApp</p>
+        <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
+
+        <!-- Redes sociales (iconos reales) -->
+        <div class="social-links">
+            <a href="https://www.tiktok.com/@tucuenta" target="_blank" rel="noopener" title="TikTok">
+                <img src="img/tiktok.png" alt="TikTok">
+            </a>
+            <a href="https://www.instagram.com/tucuenta" target="_blank" rel="noopener" title="Instagram">
+                <img src="img/instagram.png" alt="Instagram">
+            </a>
+            <a href="https://www.facebook.com/tucuenta" target="_blank" rel="noopener" title="Facebook">
+                <img src="img/facebook.png" alt="Facebook">
+            </a>
+            <a href="https://wa.me/521234567890" target="_blank" rel="noopener" title="WhatsApp">
+                <img src="img/whatsapp.png" alt="WhatsApp">
+            </a>
+        </div>
+
+        <p class="footer-credito">Creado por Ismael Palencia, 2026</p>
+    </footer>
+
+    <script>
+        // Actualizar número de WhatsApp (cámbialo por el tuyo)
+        document.getElementById('sugerencia-btn')?.addEventListener('click', function() {
+            window.open('https://wa.me/521234567890?text=Hola%20equipo%20CobraBien,%20quiero%20enviarles%20una%20sugerencia%20para%20mejorar%20la%20página:', '_blank');
+        });
+    </script>
 </body>
 </html>
