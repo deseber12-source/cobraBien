@@ -1,159 +1,97 @@
 <!DOCTYPE html>
-<html lang="es-MX">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramientas de Cobranza Gratis en México | CobraBien</title>
-    <meta name="description" content="Calculadora de deudas, scripts de llamada y herramientas de cobranza gratis para WhatsApp. Optimiza tu recuperación.">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Script diferido para mejorar carga -->
-    <script src="script.js" defer></script>
+<meta charset="UTF-8">
+<title>CobraBien | Herramientas de Cobranza</title>
+<meta name="description" content="Calculadora de cobranza, scripts y herramientas profesionales gratis">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo-area">
-                <h1>CobraBien</h1>
-                <p class="subtitle">Herramientas profesionales de cobranza</p>
-            </div>
-            <button id="theme-toggle" aria-label="Cambiar modo claro/oscuro">🌙</button>
-        </div>
-    </header>
 
-    <main>
-        <!-- Sección que agrupa las calculadoras (para el botón "Abrir calculadora") -->
-        <section id="calculadoras" class="tools-grid">
-            <!-- HERRAMIENTA 1: Calculadora de descuento -->
-            <article class="card">
-                <h2>Calculadora de descuento</h2>
-                <div class="input-group">
-                    <label>Saldo total ($)</label>
-                    <input type="number" id="descuento-saldo" placeholder="Ej: 10000" step="0.01" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Porcentaje descuento (%)</label>
-                    <input type="number" id="descuento-porcentaje" placeholder="Ej: 30" step="0.1" min="0" max="100">
-                </div>
-                <div class="input-group">
-                    <label>Fecha límite</label>
-                    <input type="date" id="descuento-fecha">
-                </div>
-                <div class="resultado">
-                    <p><strong>Monto final:</strong> $<span id="descuento-monto-final">0.00</span></p>
-                </div>
-                <div class="mensaje-preview">
-                    <label>Mensaje WhatsApp:</label>
-                    <textarea id="descuento-mensaje" readonly rows="4">Hola, le confirmo que su saldo total es de $0.00. Actualmente cuenta con un descuento del 0%, por lo que el monto a liquidar sería de $0.00. Esta opción está disponible hasta el día . Quedo atento a su confirmación.</textarea>
-                </div>
-                <div class="button-group">
-                    <button class="btn-copiar" data-target="descuento-mensaje">Copiar</button>
-                    <button class="btn-wsp" data-mensaje="descuento-mensaje">Enviar WhatsApp</button>
-                    <button class="btn-sugerencia" data-sugerencia>Enviar sugerencia</button>
-                </div>
-            </article>
+<header>
 
-            <!-- HERRAMIENTA 2: Plan de pagos con porcentaje inicial -->
-            <article class="card">
-                <h2>Plan de pagos con % inicial</h2>
-                <div class="input-group">
-                    <label>Saldo total ($)</label>
-                    <input type="number" id="porcentaje-saldo" placeholder="Ej: 10000" step="0.01" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Porcentaje inicial (%)</label>
-                    <input type="number" id="porcentaje-inicial" placeholder="Ej: 20" step="0.1" min="0" max="100">
-                </div>
-                <div class="input-group">
-                    <label>Meses</label>
-                    <input type="number" id="porcentaje-meses" placeholder="Ej: 6" step="1" min="1">
-                </div>
-                <div class="input-group">
-                    <label>Fecha límite</label>
-                    <input type="date" id="porcentaje-fecha">
-                </div>
-                <div class="resultado">
-                    <p><strong>Anticipo:</strong> $<span id="porcentaje-anticipo">0.00</span></p>
-                    <p><strong>Mensualidad:</strong> $<span id="porcentaje-mensualidad">0.00</span></p>
-                </div>
-                <div class="mensaje-preview">
-                    <label>Mensaje WhatsApp:</label>
-                    <textarea id="porcentaje-mensaje" readonly rows="4">Hola, le confirmo que su saldo total es de $0.00. Puede realizar un anticipo del 0% equivalente a $0.00, y el resto en 0 mensualidades de $0.00 cada una. Esta opción está disponible hasta el día . Quedo atento a su confirmación.</textarea>
-                </div>
-                <div class="button-group">
-                    <button class="btn-copiar" data-target="porcentaje-mensaje">Copiar</button>
-                    <button class="btn-wsp" data-mensaje="porcentaje-mensaje">Enviar WhatsApp</button>
-                    <button class="btn-sugerencia" data-sugerencia>Enviar sugerencia</button>
-                </div>
-            </article>
+<h1>CobraBien</h1>
 
-            <!-- HERRAMIENTA 3: Plan de pagos con monto inicial -->
-            <article class="card">
-                <h2>Plan de pagos con monto inicial</h2>
-                <div class="input-group">
-                    <label>Saldo total ($)</label>
-                    <input type="number" id="monto-saldo" placeholder="Ej: 10000" step="0.01" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Monto inicial ($)</label>
-                    <input type="number" id="monto-inicial" placeholder="Ej: 3000" step="0.01" min="0">
-                </div>
-                <div class="input-group">
-                    <label>Meses</label>
-                    <input type="number" id="monto-meses" placeholder="Ej: 6" step="1" min="1">
-                </div>
-                <div class="input-group">
-                    <label>Fecha límite</label>
-                    <input type="date" id="monto-fecha">
-                </div>
-                <div class="resultado">
-                    <p><strong>Mensualidad:</strong> $<span id="monto-mensualidad">0.00</span></p>
-                </div>
-                <div class="mensaje-preview">
-                    <label>Mensaje WhatsApp:</label>
-                    <textarea id="monto-mensaje" readonly rows="4">Hola, le confirmo que su saldo total es de $0.00. Puede realizar un anticipo de $0.00, y el resto en 0 mensualidades de $0.00 cada una. Esta opción está disponible hasta el día . Quedo atento a su confirmación.</textarea>
-                </div>
-                <div class="button-group">
-                    <button class="btn-copiar" data-target="monto-mensaje">Copiar</button>
-                    <button class="btn-wsp" data-mensaje="monto-mensaje">Enviar WhatsApp</button>
-                    <button class="btn-sugerencia" data-sugerencia>Enviar sugerencia</button>
-                </div>
-            </article>
+<p>Herramientas profesionales de cobranza</p>
 
-            <!-- HERRAMIENTA 4: Generador de script de llamada (ocupa ancho completo) -->
-            <article class="card card-full">
-                <h2>Generador de script de llamada</h2>
-                <div class="script-inputs-grid">
-                    <div class="input-group"><label>Nombre asesor</label><input type="text" id="script-asesor" placeholder="Ej: Ana"></div>
-                    <div class="input-group"><label>Nombre cliente</label><input type="text" id="script-nombre-cliente" placeholder="Ej: Juan"></div>
-                    <div class="input-group"><label>Apellido cliente</label><input type="text" id="script-apellido-cliente" placeholder="Ej: Pérez"></div>
-                    <div class="input-group"><label>Empresa acreedora</label><input type="text" id="script-empresa" placeholder="Ej: Tienda S.A."></div>
-                    <div class="input-group"><label>Nombre despacho</label><input type="text" id="script-despacho" placeholder="Ej: Despacho Jurídico"></div>
-                    <div class="input-group"><label>Fecha compromiso</label><input type="date" id="script-fecha"></div>
-                    <div class="input-group"><label>Monto compromiso ($)</label><input type="number" id="script-monto" placeholder="Ej: 2500" step="0.01" min="0"></div>
-                </div>
-                <div class="mensaje-preview">
-                    <label>Script generado:</label>
-                    <textarea id="script-mensaje" readonly rows="12"></textarea>
-                </div>
-                <div class="button-group">
-                    <button class="btn-copiar" data-target="script-mensaje">Copiar script</button>
-                    <button id="btn-abrir-calculadora">Abrir calculadora</button>
-                    <button class="btn-sugerencia" data-sugerencia>Enviar sugerencia</button>
-                </div>
-            </article>
+<button onclick="toggleDark()">🌙</button>
 
-            <!-- HERRAMIENTA 5: Generador de mensajes (próximamente) -->
-            <article class="card card-coming">
-                <h2>Generador de mensajes WhatsApp y Email</h2>
-                <p class="coming-soon-text">Próximamente.</p>
-                <p class="coming-soon-desc">Estamos desarrollando esta herramienta para ayudarte a generar mensajes profesionales automáticamente.</p>
-                <button disabled class="btn-disabled">Próximamente disponible</button>
-            </article>
-        </section>
-    </main>
+</header>
 
-    <footer>
-        <p>© 2025 CobraBien - Herramientas profesionales para cobranza</p>
-    </footer>
+<main>
+
+<section id="calculadora">
+
+<h2>Calculadora de Descuento</h2>
+
+<input id="saldo" placeholder="Saldo total">
+
+<input id="descuento" placeholder="% descuento">
+
+<input id="fecha" type="date">
+
+<button onclick="calcDescuento()">Calcular</button>
+
+<textarea id="resultado"></textarea>
+
+<button onclick="copiar('resultado')">Copiar</button>
+
+<button onclick="enviarWA('resultado')">WhatsApp</button>
+
+</section>
+
+
+<section>
+
+<h2>Script de llamada</h2>
+
+<input id="asesor" placeholder="Tu nombre">
+
+<input id="cliente" placeholder="Nombre cliente">
+
+<input id="apellido" placeholder="Apellido cliente">
+
+<input id="empresa" placeholder="Empresa">
+
+<input id="despacho" placeholder="Despacho">
+
+<input id="monto" placeholder="Monto acuerdo">
+
+<input id="fecha_pago" type="date">
+
+<button onclick="generarScript()">Generar Script</button>
+
+<textarea id="script"></textarea>
+
+<button onclick="copiar('script')">Copiar</button>
+
+<button onclick="abrirCalc()">Abrir Calculadora</button>
+
+</section>
+
+
+<section>
+
+<h2>Generador WhatsApp y Email</h2>
+
+<p>Próximamente</p>
+
+<button disabled>Disponible pronto</button>
+
+</section>
+
+</main>
+
+<footer>
+
+<button onclick="sugerencia()">Enviar sugerencia</button>
+
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>
