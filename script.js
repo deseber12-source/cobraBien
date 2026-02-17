@@ -1,11 +1,5 @@
 /**
- * CobraBien.com - Versión final optimizada con menú flotante y toast
- * - Botón limpiar por herramienta
- * - Eventos delegados para mejor rendimiento
- * - Formato de pesos mexicanos
- * - Tooltips y mejoras de UX
- * - Menú flotante de navegación
- * - Notificaciones toast en lugar de alert
+ * CobraBien.com - Versión con plantillas personalizables y ayuda
  */
 
 (function() {
@@ -41,7 +35,7 @@
     };
 
     // ==============================================
-    // 3. FUNCIONES AUXILIARES DE VALIDACIÓN
+    // 3. FUNCIONES AUXILIARES
     // ==============================================
     function validarNumero(valor, defecto = 0, min = 0) {
         const num = parseFloat(valor);
@@ -53,8 +47,17 @@
         return (isNaN(num) || num < min) ? defecto : num;
     }
 
+    // Plantillas por defecto para cada herramienta
+    const plantillasDefecto = {
+        descuento: "Hola, le confirmo que su saldo total es de {{saldo}}. Actualmente cuenta con un descuento del {{porcentaje}}%, por lo que el monto a liquidar sería de {{montoFinal}}. Esta opción está disponible hasta el día {{fecha}}. Quedo atento a su confirmación.",
+        porcentaje: "Hola, le confirmo que su saldo total es de {{saldo}}. Puede realizar un anticipo del {{pInicial}}% equivalente a {{anticipo}}, y el resto en {{meses}} mensualidades de {{mensualidad}} cada una. Esta opción está disponible hasta el día {{fecha}}. Quedo atento a su confirmación.",
+        monto: "Hola, le confirmo que su saldo total es de {{saldo}}. Puede realizar un anticipo de {{inicial}}, y el resto en {{meses}} mensualidades de {{mensualidad}} cada una. Esta opción está disponible hasta el día {{fecha}}. Quedo atento a su confirmación.",
+        confirmacion: "Estimado(a) {{nombre}}, se confirma su acuerdo de pago por {{monto}} el día {{fecha}}.{{refStr}} Este pago se aplicará a su cuenta con {{empresa}}. Quedamos atentos a su cumplimiento.",
+        recordatorio: "Estimado(a) {{nombre}}, le recordamos que el día de mañana vence su compromiso de pago por {{monto}}. Le agradecemos realizar su pago en tiempo y forma. Quedamos atentos."
+    };
+
     // ==============================================
-    // 4. FUNCIONES DE GENERACIÓN (con validaciones)
+    // 4. FUNCIONES DE GENERACIÓN (con plantilla personalizada)
     // ==============================================
     const generadores = {
         descuento: () => {
@@ -63,9 +66,23 @@
             const fecha = document.getElementById('descuento-fecha').value;
             const montoFinal = saldo - (saldo * porcentaje / 100);
             document.getElementById('descuento-monto-final').innerHTML = formatoMXN(montoFinal);
+
             const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha no especificada]';
-            document.getElementById('descuento-mensaje').value =
-                `Hola, le confirmo que su saldo total es de ${formatoMXN(saldo)}. Actualmente cuenta con un descuento del ${porcentaje}%, por lo que el monto a liquidar sería de ${formatoMXN(montoFinal)}. Esta opción está disponible hasta el día ${fechaStr}. Quedo atento a su confirmación.`;
+
+            // Obtener plantilla personalizada o usar defecto
+            let plantilla = document.getElementById('descuento-plantilla').value.trim();
+            if (!plantilla) {
+                plantilla = plantillasDefecto.descuento;
+            }
+
+            // Reemplazar variables
+            let mensaje = plantilla
+                .replace(/{{saldo}}/g, formatoMXN(saldo))
+                .replace(/{{porcentaje}}/g, porcentaje)
+                .replace(/{{montoFinal}}/g, formatoMXN(montoFinal))
+                .replace(/{{fecha}}/g, fechaStr);
+
+            document.getElementById('descuento-mensaje').value = mensaje;
         },
         porcentaje: () => {
             const saldo = validarNumero(document.getElementById('porcentaje-saldo').value, 0);
@@ -76,9 +93,21 @@
             const mensualidad = meses > 0 ? (saldo - anticipo) / meses : 0;
             document.getElementById('porcentaje-anticipo').innerHTML = formatoMXN(anticipo);
             document.getElementById('porcentaje-mensualidad').innerHTML = formatoMXN(mensualidad);
+
             const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha no especificada]';
-            document.getElementById('porcentaje-mensaje').value =
-                `Hola, le confirmo que su saldo total es de ${formatoMXN(saldo)}. Puede realizar un anticipo del ${pInicial}% equivalente a ${formatoMXN(anticipo)}, y el resto en ${meses} mensualidades de ${formatoMXN(mensualidad)} cada una. Esta opción está disponible hasta el día ${fechaStr}. Quedo atento a su confirmación.`;
+
+            let plantilla = document.getElementById('porcentaje-plantilla').value.trim();
+            if (!plantilla) plantilla = plantillasDefecto.porcentaje;
+
+            let mensaje = plantilla
+                .replace(/{{saldo}}/g, formatoMXN(saldo))
+                .replace(/{{pInicial}}/g, pInicial)
+                .replace(/{{anticipo}}/g, formatoMXN(anticipo))
+                .replace(/{{meses}}/g, meses)
+                .replace(/{{mensualidad}}/g, formatoMXN(mensualidad))
+                .replace(/{{fecha}}/g, fechaStr);
+
+            document.getElementById('porcentaje-mensaje').value = mensaje;
         },
         monto: () => {
             const saldo = validarNumero(document.getElementById('monto-saldo').value, 0);
@@ -87,9 +116,20 @@
             const fecha = document.getElementById('monto-fecha').value;
             const mensualidad = meses > 0 ? (saldo - inicial) / meses : 0;
             document.getElementById('monto-mensualidad').innerHTML = formatoMXN(mensualidad);
+
             const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha no especificada]';
-            document.getElementById('monto-mensaje').value =
-                `Hola, le confirmo que su saldo total es de ${formatoMXN(saldo)}. Puede realizar un anticipo de ${formatoMXN(inicial)}, y el resto en ${meses} mensualidades de ${formatoMXN(mensualidad)} cada una. Esta opción está disponible hasta el día ${fechaStr}. Quedo atento a su confirmación.`;
+
+            let plantilla = document.getElementById('monto-plantilla').value.trim();
+            if (!plantilla) plantilla = plantillasDefecto.monto;
+
+            let mensaje = plantilla
+                .replace(/{{saldo}}/g, formatoMXN(saldo))
+                .replace(/{{inicial}}/g, formatoMXN(inicial))
+                .replace(/{{meses}}/g, meses)
+                .replace(/{{mensualidad}}/g, formatoMXN(mensualidad))
+                .replace(/{{fecha}}/g, fechaStr);
+
+            document.getElementById('monto-mensaje').value = mensaje;
         },
         confirmacion: () => {
             const nombre = document.getElementById('confirmacion-nombre').value.trim() || '[Nombre del Cliente]';
@@ -99,16 +139,34 @@
             const empresa = document.getElementById('confirmacion-empresa').value.trim() || '[Empresa]';
             const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha]';
             const refStr = referencia ? ` (Referencia: ${referencia})` : '';
-            document.getElementById('confirmacion-mensaje').value =
-                `Estimado(a) ${nombre}, se confirma su acuerdo de pago por ${formatoMXN(monto)} el día ${fechaStr}.${refStr} Este pago se aplicará a su cuenta con ${empresa}. Quedamos atentos a su cumplimiento.`;
+
+            let plantilla = document.getElementById('confirmacion-plantilla').value.trim();
+            if (!plantilla) plantilla = plantillasDefecto.confirmacion;
+
+            let mensaje = plantilla
+                .replace(/{{nombre}}/g, nombre)
+                .replace(/{{monto}}/g, formatoMXN(monto))
+                .replace(/{{fecha}}/g, fechaStr)
+                .replace(/{{refStr}}/g, refStr)
+                .replace(/{{empresa}}/g, empresa);
+
+            document.getElementById('confirmacion-mensaje').value = mensaje;
         },
         recordatorio: () => {
             const nombre = document.getElementById('recordatorio-nombre').value.trim() || '[Nombre del Cliente]';
             const monto = validarNumero(document.getElementById('recordatorio-monto').value, 0);
             const fecha = document.getElementById('recordatorio-fecha').value;
-            const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha no especificada]';
-            document.getElementById('recordatorio-mensaje').value =
-                `Estimado(a) ${nombre}, le recordamos su compromiso de pago por ${formatoMXN(monto)}. La fecha de vencimiento es el ${fechaStr}. Le agradecemos realizar su pago en tiempo y forma. Quedamos atentos.`;
+            const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha]';
+
+            let plantilla = document.getElementById('recordatorio-plantilla').value.trim();
+            if (!plantilla) plantilla = plantillasDefecto.recordatorio;
+
+            let mensaje = plantilla
+                .replace(/{{nombre}}/g, nombre)
+                .replace(/{{monto}}/g, formatoMXN(monto))
+                .replace(/{{fecha}}/g, fechaStr);
+
+            document.getElementById('recordatorio-mensaje').value = mensaje;
         },
         script: () => {
             const asesor = document.getElementById('script-asesor').value.trim() || '[Nombre Asesor]';
@@ -118,19 +176,23 @@
             const monto = validarNumero(document.getElementById('script-monto').value, 0);
             const fechaCompromiso = fecha ? fecha.split('-').reverse().join('/') : '[Fecha]';
             const montoStr = monto > 0 ? formatoMXN(monto) : '[Monto]';
-            document.getElementById('script-mensaje').value =
-                `Buenas tardes, ¿hablo con el señor(a) [Nombre del Cliente]?\n\nMi nombre es ${asesor}, asesor de ${despacho}, y me comunico en representación de ${empresa}.\n\nEl motivo de mi llamada es conversar con usted respecto a su saldo pendiente.\n\nAntes de continuar, me gustaría escucharle. ¿Podría comentarme cuál fue el motivo por el cual no le fue posible realizar su pago?\n\n[NOTA PARA EL ASESOR: En este momento es importante escuchar al cliente y entender su situación. No interrumpir.]\n\n---\n\nComprendo, gracias por compartirlo.\n\nActualmente su cuenta presenta un atraso que requiere atención, y mi intención es ayudarle a encontrar una solución viable.\n\n[NOTA PARA EL ASESOR: En este punto, el asesor YA DEBE TENER ABIERTA LA CALCULADORA DE CobraBien en otra pestaña, para tener listas las opciones.]\n\n---\n\nNegociación:\n\nPermítame comentarle las opciones disponibles para regularizar su situación.\n\n[El asesor presenta las opciones previamente calculadas. Se recomienda empezar con una para ir NEGOCIANDO]\n\nEs importante poder generar hoy mismo un acuerdo que le permita resolver esta situación.\n\n---\n\nConfirmación:\n\nEntonces, para confirmar:\n\nUsted estaría realizando un pago de ${montoStr} el día ${fechaCompromiso}.\n\n¿Es correcto?\n\n---\n\nCierre:\n\nPerfecto, agradezco su disposición.\n\nLe estaré enviando un mensaje por WhatsApp con los detalles de su acuerdo.\n\nQuedo atento y a sus órdenes.`;
+
+            // El script no tiene plantilla personalizable por ahora
+            const mensaje = `Buenas tardes, ¿hablo con el señor(a) [Nombre del Cliente]?\n\nMi nombre es ${asesor}, asesor de ${despacho}, y me comunico en representación de ${empresa}.\n\nEl motivo de mi llamada es conversar con usted respecto a su saldo pendiente.\n\nAntes de continuar, me gustaría escucharle. ¿Podría comentarme cuál fue el motivo por el cual no le fue posible realizar su pago?\n\n[NOTA PARA EL ASESOR: En este momento es importante escuchar al cliente y entender su situación. No interrumpir.]\n\n---\n\nComprendo, gracias por compartirlo.\n\nActualmente su cuenta presenta un atraso que requiere atención, y mi intención es ayudarle a encontrar una solución viable.\n\n[NOTA PARA EL ASESOR: En este punto, el asesor YA DEBE TENER ABIERTA LA CALCULADORA DE CobraBien en otra pestaña, para tener listas las opciones.]\n\n---\n\nNegociación:\n\nPermítame comentarle las opciones disponibles para regularizar su situación.\n\n[El asesor presenta las opciones previamente calculadas]\n\nEs importante poder generar hoy mismo un acuerdo que le permita resolver esta situación.\n\n---\n\nConfirmación:\n\nEntonces, para confirmar:\n\nUsted estaría realizando un pago de ${montoStr} el día ${fechaCompromiso}.\n\n¿Es correcto?\n\n---\n\nCierre:\n\nPerfecto, agradezco su disposición.\n\nLe estaré enviando un mensaje por WhatsApp con los detalles de su acuerdo.\n\nQuedo atento y a sus órdenes.`;
+
+            document.getElementById('script-mensaje').value = mensaje;
         }
     };
 
     // ==============================================
-    // 5. FUNCIONES DE LIMPIEZA (completas)
+    // 5. FUNCIONES DE LIMPIEZA (incluyen limpiar plantillas personalizadas)
     // ==============================================
     const limpiadores = {
         descuento: () => {
             document.getElementById('descuento-saldo').value = '';
             document.getElementById('descuento-porcentaje').value = '';
             document.getElementById('descuento-fecha').value = '';
+            document.getElementById('descuento-plantilla').value = '';
             generadores.descuento();
         },
         porcentaje: () => {
@@ -138,6 +200,7 @@
             document.getElementById('porcentaje-inicial').value = '';
             document.getElementById('porcentaje-meses').value = '';
             document.getElementById('porcentaje-fecha').value = '';
+            document.getElementById('porcentaje-plantilla').value = '';
             generadores.porcentaje();
         },
         monto: () => {
@@ -145,6 +208,7 @@
             document.getElementById('monto-inicial').value = '';
             document.getElementById('monto-meses').value = '';
             document.getElementById('monto-fecha').value = '';
+            document.getElementById('monto-plantilla').value = '';
             generadores.monto();
         },
         confirmacion: () => {
@@ -153,12 +217,14 @@
             document.getElementById('confirmacion-fecha').value = '';
             document.getElementById('confirmacion-referencia').value = '';
             document.getElementById('confirmacion-empresa').value = '';
+            document.getElementById('confirmacion-plantilla').value = '';
             generadores.confirmacion();
         },
         recordatorio: () => {
             document.getElementById('recordatorio-nombre').value = '';
             document.getElementById('recordatorio-monto').value = '';
             document.getElementById('recordatorio-fecha').value = '';
+            document.getElementById('recordatorio-plantilla').value = '';
             generadores.recordatorio();
         },
         script: () => {
@@ -172,26 +238,40 @@
     };
 
     // ==============================================
-    // 6. TOAST NOTIFICATION
+    // 6. RESTAURAR PLANTILLA POR DEFECTO
+    // ==============================================
+    document.querySelectorAll('[data-restaurar]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const herramienta = btn.getAttribute('data-restaurar');
+            const plantillaDefecto = plantillasDefecto[herramienta];
+            if (plantillaDefecto) {
+                document.getElementById(`${herramienta}-plantilla`).value = plantillaDefecto;
+                // Opcional: regenerar mensaje
+                if (generadores[herramienta]) generadores[herramienta]();
+                mostrarToast('🔄 Plantilla restaurada');
+            }
+        });
+    });
+
+    // ==============================================
+    // 7. TOAST NOTIFICATION
     // ==============================================
     const toast = document.getElementById('toast');
-    function mostrarToast(mensaje = '✅ Mensaje copiado') {
+    function mostrarToast(mensaje = '✅ Copiado') {
         if (!toast) return;
         toast.textContent = mensaje;
         toast.classList.remove('hidden');
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 2000);
+        setTimeout(() => toast.classList.add('hidden'), 2000);
     }
 
     // ==============================================
-    // 7. EVENTOS DELEGADOS (mejorados)
+    // 8. EVENTOS DELEGADOS
     // ==============================================
     document.addEventListener('click', (e) => {
         const target = e.target;
 
         // Botones generar
-        if (target.classList.contains('btn-generar')) {
+        if (target.classList.contains('btn-generar') && !target.closest('a')) {
             const herramienta = target.getAttribute('data-herramienta');
             if (herramienta && generadores[herramienta]) {
                 generadores[herramienta]();
@@ -223,19 +303,14 @@
             }
         }
 
-        // Botón sugerencia
-        if (target.id === 'sugerencia-btn') {
-            window.open('https://wa.me/5210000000000?text=Hola%20equipo%20CobraBien,%20quiero%20enviarles%20una%20sugerencia%20para%20mejorar%20la%20página:', '_blank');
-        }
-
-        // Botón abrir calculadoras (desplaza a herramientas)
+        // Botón abrir calculadoras
         if (target.id === 'btn-abrir-calculadora') {
             document.getElementById('calculadoras').scrollIntoView({ behavior: 'smooth' });
         }
     });
 
     // ==============================================
-    // 8. SCROLL SUAVE PARA EL MENÚ FLOTANTE
+    // 9. SCROLL SUAVE PARA EL MENÚ FLOTANTE
     // ==============================================
     document.querySelectorAll('.menu-item').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -251,7 +326,7 @@
     });
 
     // ==============================================
-    // 9. OCULTAR/MOSTRAR MENÚ AL HACER SCROLL
+    // 10. OCULTAR/MOSTRAR MENÚ AL HACER SCROLL
     // ==============================================
     const floatMenu = document.getElementById('floatMenu');
     if (floatMenu) {
@@ -272,7 +347,7 @@
     }
 
     // ==============================================
-    // 10. GENERAR MENSAJES INICIALES
+    // 11. GENERAR MENSAJES INICIALES
     // ==============================================
     setTimeout(() => {
         Object.values(generadores).forEach(fn => fn());
