@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de mensajes Email/WhatsApp | CobraBien v2.2</title>
+    <title>Generador de mensajes Email/WhatsApp | CobraBien v2.3</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Genera mensajes personalizados masivos desde Excel para cobranza.">
     <link rel="stylesheet" href="styles.css">
@@ -32,7 +32,6 @@
 
     <main>
         <div class="container">
-            <!-- Enlace "Volver" con margen inferior aumentado en CSS -->
             <a href="index.html" class="back-link">← Volver a herramientas principales</a>
 
             <!-- Sección de bienvenida interactiva -->
@@ -160,7 +159,7 @@
                     </div>
                 </div>
 
-                <!-- Paso 4: Resultados -->
+                <!-- Paso 4: Resultados (con navegación rápida) -->
                 <div class="step-content" id="step4">
                     <h2>Mensajes generados</h2>
                     <p>Aquí tienes los mensajes personalizados. Navega entre las filas y copia lo que necesites.</p>
@@ -170,6 +169,13 @@
                         <button id="resultado-anterior" class="btn-sm" disabled>← Anterior</button>
                         <span id="contador-fila">Fila 1 de 0</span>
                         <button id="resultado-siguiente" class="btn-sm" disabled>Siguiente →</button>
+                    </div>
+
+                    <!-- Navegación rápida -->
+                    <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+                        <label for="ir-fila" style="font-weight: 600;">Ir a fila:</label>
+                        <input type="number" id="ir-fila" min="1" style="width: 80px; padding: 0.3rem; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                        <button id="btn-ir-fila" class="btn-sm">Ir</button>
                     </div>
 
                     <div id="resultado-actual" class="result-item"></div>
@@ -194,8 +200,10 @@
             </div>
             <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
             <p class="footer-credito">
+                ¿Te gustó la herramienta o tienes alguna sugerencia?
+                ¡Queremos mejorar! Escríbenos por WhatsApp. <br>
                 Creado por Ismael Palencia, 2026 |
-                <a href="CHANGELOG.md" target="_blank">Versión 2.2</a>
+                <a href="CHANGELOG.md" target="_blank">Versión 2.3</a>
             </p>
         </div>
     </footer>
