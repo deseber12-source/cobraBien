@@ -1014,3 +1014,57 @@ body.dark .float-menu {
         font-size: 1.1rem;
     }
 }
+
+/* ===== PÁGINA DE VERSIONES ===== */
+.versions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.version-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.version-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-green);
+}
+
+.version-card h3 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.version-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.version-card li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.version-card li::before {
+    content: "✨";
+    position: absolute;
+    left: 0;
+    color: var(--primary-yellow);
+    font-size: 1rem;
+}
+
+.version-card li strong {
+    color: var(--primary-green);
+    font-weight: 600;
+}
