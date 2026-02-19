@@ -50,11 +50,9 @@
                 <div class="version-card">
                     <h3>[2.4.1] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Opción de redondear hacia arriba en las calculadoras de descuento, porcentaje y monto.</li>
-                        <li><strong>Añadido:</strong> Checkbox con leyenda "Redondear hacia arriba" y recomendación: "para que no falte ni un centavo".</li>
-                        <li><strong>Añadido:</strong> La funcionalidad afecta los montos finales, anticipos y mensualidades según corresponda.</li>
-                        <li><strong>Añadido:</strong> Al limpiar cada herramienta, también se desmarca el checkbox.</li>
-                        <li><strong>Mejorado:</strong> Mayor precisión en los mensajes generados, dando control al usuario sobre el redondeo.</li>
+                        <li><strong>✨ Añadido:</strong> Opción de redondear hacia arriba en calculadoras (descuento, % inicial, monto inicial). Checkbox con leyenda "para que no falte ni un centavo". Los montos finales, anticipos y mensualidades se redondean con <code>Math.ceil()</code>.</li>
+                        <li><strong>🔧 Cambiado:</strong> Mensajes generados reflejan el redondeo. Nota informativa junto al checkbox.</li>
+                        <li><strong>🧠 Detalles:</strong> Se añadieron IDs específicos para los checkboxes y se integraron en las funciones <code>generadores</code> y <code>limpiadores</code>.</li>
                     </ul>
                 </div>
 
@@ -62,10 +60,9 @@
                 <div class="version-card">
                     <h3>[2.4] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Nueva página <code>versiones.html</code> que muestra el historial completo de cambios en un formato visual atractivo (tarjetas de versiones).</li>
-                        <li><strong>Añadido:</strong> Enlace a "Novedades v2.4" en el footer del <code>index.html</code> para que los usuarios puedan conocer las actualizaciones.</li>
-                        <li><strong>Añadido:</strong> Estilos específicos para las tarjetas de versiones en <code>styles.css</code>.</li>
-                        <li><strong>Mejorado:</strong> Texto del footer más amigable y claro, invitando a enviar sugerencias.</li>
+                        <li><strong>✨ Añadido:</strong> Nueva página <code>versiones.html</code> con historial de cambios en formato tarjetas. Incluye Google Analytics y enlace en el footer de <code>index.html</code> ("Novedades v2.4").</li>
+                        <li><strong>🔧 Cambiado:</strong> Estilos unificados: todo el CSS del generador movido a <code>styles.css</code>. Se agregaron clases <code>.version-card</code> y <code>.versions-list</code>.</li>
+                        <li><strong>🧠 Detalles:</strong> La página reutiliza componentes del index (header, footer, theme toggle).</li>
                     </ul>
                 </div>
 
@@ -73,15 +70,11 @@
                 <div class="version-card">
                     <h3>[2.3] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Persistencia del estado con <code>sessionStorage</code>:
-                            <ul>
-                                <li>Al recargar la página se restauran variables, plantillas, archivo cargado (si es pequeño) y la fila actual.</li>
-                                <li>Advertencia al intentar cerrar o recargar si hay datos sin guardar.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Añadido:</strong> Navegación rápida en el paso de resultados: campo numérico y botón "Ir" para saltar directamente a cualquier fila.</li>
-                        <li><strong>Añadido:</strong> Mensaje más amigable en el botón de sugerencias: "¿Te gustó la herramienta o tienes alguna sugerencia? ¡Queremos mejorar! Escríbenos por WhatsApp."</li>
-                        <li><strong>Mejorado:</strong> Optimización de almacenamiento: si el archivo cargado excede 4 MB, se guarda la configuración pero no los datos.</li>
+                        <li><strong>✨ Añadido:</strong> Persistencia con <code>sessionStorage</code> en el generador de mensajes: guarda variables, plantillas, datos (si &lt;4MB) y fila actual. Restaura al recargar.</li>
+                        <li><strong>✨ Añadido:</strong> Advertencia al salir/recargar con <code>beforeunload</code> si hay datos sin guardar.</li>
+                        <li><strong>✨ Añadido:</strong> Navegación rápida en resultados: campo numérico y botón "Ir" para saltar a cualquier fila.</li>
+                        <li><strong>🔧 Cambiado:</strong> Optimización: si los datos exceden 4 MB, se guarda solo la configuración.</li>
+                        <li><strong>🧠 Detalles:</strong> Funciones <code>guardarEstadoEnSession()</code> y <code>cargarEstadoDesdeSession()</code>; cálculo de tamaño con <code>Blob</code>.</li>
                     </ul>
                 </div>
 
@@ -89,12 +82,10 @@
                 <div class="version-card">
                     <h3>[2.2] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Unificación de estilos con la página principal (<code>index.html</code>).</li>
-                        <li><strong>Añadido:</strong> Header y footer rediseñados con la misma estructura y clases.</li>
-                        <li><strong>Añadido:</strong> Enlaces a redes sociales con iconos reales (Facebook, Instagram, WhatsApp).</li>
-                        <li><strong>Añadido:</strong> Panel de bienvenida interactivo para guiar a nuevos usuarios.</li>
-                        <li><strong>Cambiado:</strong> El botón "Volver a herramientas principales" ahora tiene más separación visual.</li>
-                        <li><strong>Eliminado:</strong> Botón "Copiar todos los resúmenes" por ser poco práctico.</li>
+                        <li><strong>✨ Añadido:</strong> Panel de bienvenida interactivo en <code>generador-mensajes.html</code> con botón "¿Primera vez? Explicación rápida" y panel desplegable.</li>
+                        <li><strong>🔧 Cambiado:</strong> Unificación de header y footer con <code>index.html</code> (clases <code>header-new</code>, <code>footer-new</code>).</li>
+                        <li><strong>🔧 Cambiado:</strong> Aumento del margen inferior del enlace "Volver a herramientas".</li>
+                        <li><strong>🧠 Detalles:</strong> Control del panel con JavaScript (toggle de clase <code>hidden</code>) y estilos con transiciones CSS.</li>
                     </ul>
                 </div>
 
@@ -102,7 +93,7 @@
                 <div class="version-card">
                     <h3>[2.1.2] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Botón "¿Primera vez? Explicación rápida" con panel desplegable que explica el funcionamiento paso a paso.</li>
+                        <li><strong>✨ Añadido:</strong> Botón de explicación rápida (versión inicial con <code>alert</code>, luego reemplazado). Solo histórico.</li>
                     </ul>
                 </div>
 
@@ -110,7 +101,7 @@
                 <div class="version-card">
                     <h3>[2.1.1] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Cambiado:</strong> Separación de estilos: todos los CSS del generador se movieron a <code>styles.css</code> para mantener consistencia con el index.</li>
+                        <li><strong>🔧 Cambiado:</strong> Separación de estilos: todo el CSS del generador movido a <code>styles.css</code>, añadiendo variables <code>--primary-blue</code> y <code>--accent-green</code>.</li>
                     </ul>
                 </div>
 
@@ -118,9 +109,10 @@
                 <div class="version-card">
                     <h3>[2.1] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Posibilidad de definir una plantilla de resumen independiente.</li>
-                        <li><strong>Añadido:</strong> En el paso de resultados se muestra tanto el mensaje principal como el resumen (si se definió).</li>
-                        <li><strong>Añadido:</strong> Botón "Copiar resumen" que copia el contenido generado con esa plantilla.</li>
+                        <li><strong>✨ Añadido:</strong> Plantilla de resumen independiente en el generador. Checkbox para habilitarla y campo de texto para la plantilla.</li>
+                        <li><strong>✨ Añadido:</strong> Botón "Copiar resumen" en el paso de resultados.</li>
+                        <li><strong>🔧 Cambiado:</strong> Eliminación del botón "Copiar todos los resúmenes".</li>
+                        <li><strong>🧠 Detalles:</strong> Nuevo campo <code>state.plantillaResumen</code> y lógica en <code>mostrarFilaActual</code>.</li>
                     </ul>
                 </div>
 
@@ -128,70 +120,40 @@
                 <div class="version-card">
                     <h3>[2.0] - 2026-02-18</h3>
                     <ul>
-                        <li><strong>Añadido:</strong> Versión inicial del generador de mensajes con wizard de 4 pasos.</li>
-                        <li><strong>Añadido:</strong> Carga de archivos Excel/CSV mediante SheetJS.</li>
-                        <li><strong>Añadido:</strong> Formato automático de números a moneda MXN.</li>
-                        <li><strong>Añadido:</strong> Navegación fila por fila y copiado individual.</li>
+                        <li><strong>✨ Añadido:</strong> Versión inicial del generador de mensajes con wizard de 4 pasos, carga de Excel/CSV (SheetJS), formato moneda MXN, normalización de columnas, límite de 1000 filas y botón de reinicio.</li>
+                        <li><strong>🧠 Detalles:</strong> Objeto <code>state</code>, funciones <code>goToStep</code>, <code>procesarArchivo</code>, <code>aplicarPlantilla</code>, etc.</li>
                     </ul>
                 </div>
 
-                <!-- Versión 2.0.0 (rediseño) -->
+                <!-- Versión 2.0.0 -->
                 <div class="version-card">
-                    <h3>[2.0.0] - 2026-02-16</h3>
+                    <h3>[2.0.0] - 2026-02-19</h3>
                     <ul>
-                        <li><strong>✨ Nueva identidad visual "Margarita":</strong> rediseño completo inspirado en colores cálidos de margaritas (#FFE7A0, #8CB27C), tipografía Poppins, header y footer renovados.</li>
-                        <li><strong>🧭 Navegación y usabilidad:</strong> menú flotante con iconos, scroll suave, nota explicativa.</li>
-                        <li><strong>🆕 Nuevas herramientas:</strong> generador de mensajes desde Excel (página independiente) y tarjeta "Próximamente".</li>
-                        <li><strong>⚙️ Mejoras en herramientas existentes:</strong> plantillas personalizables, botón restaurar, tooltips informativos, formato de moneda.</li>
-                        <li><strong>📱 Experiencia de usuario:</strong> notificaciones toast, navegación fila por fila, validación de columnas, límite de 1000 filas.</li>
-                        <li><strong>🎨 Estilos y alineación:</strong> grid centrado, tooltips visibles, modo oscuro adaptado.</li>
-                        <li><strong>📊 Analítica:</strong> integración de Google Analytics.</li>
-                        <li><strong>🐛 Correcciones:</strong> codificación UTF-8, tooltips recortados, alineación de tarjetas, fecha en recordatorios.</li>
-                    </ul>
-                </div>
-
-                <!-- Versión 1.5.0 -->
-                <div class="version-card">
-                    <h3>[1.5.0] - 2026-02-14</h3>
-                    <ul>
-                        <li><strong>🚀 Mejoras intermedias previas al rediseño:</strong></li>
-                        <li>Validación de columnas en el generador de mensajes (prototipo).</li>
-                        <li>Formato de moneda automático.</li>
-                        <li>Límite de 1000 filas en carga de Excel.</li>
-                        <li>Primeros tooltips de ayuda.</li>
-                    </ul>
-                </div>
-
-                <!-- Versión 1.2.0 -->
-                <div class="version-card">
-                    <h3>[1.2.0] - 2026-02-12</h3>
-                    <ul>
-                        <li><strong>🧪 Versión de prueba del generador de mensajes:</strong> creación de <code>generador-mensajes.html</code> con funcionalidad básica, vista previa y corrección de coincidencia de columnas.</li>
-                    </ul>
-                </div>
-
-                <!-- Versión 1.1.0 -->
-                <div class="version-card">
-                    <h3>[1.1.0] - 2026-02-10</h3>
-                    <ul>
-                        <li><strong>🧭 Primer menú flotante:</strong> implementación experimental en index.html y botón de modo oscuro con persistencia.</li>
+                        <li><strong>✨ Añadido:</strong> Nueva herramienta generador de mensajes (detallada en 2.0).</li>
+                        <li><strong>✨ Añadido:</strong> Plantillas personalizables en herramientas 1-5 con botón "Restaurar original".</li>
+                        <li><strong>✨ Añadido:</strong> Tooltips explicativos con botón "?" (CSS puro).</li>
+                        <li><strong>✨ Añadido:</strong> Menú flotante de navegación rápida con scroll suave y ocultamiento automático.</li>
+                        <li><strong>✨ Añadido:</strong> Sección de bienvenida del equipo y enlaces a redes sociales.</li>
+                        <li><strong>✨ Añadido:</strong> Google Analytics.</li>
+                        <li><strong>🔧 Cambiado:</strong> Rediseño visual completo (paleta margarita, tipografía Poppins, header/footer nuevos).</li>
+                        <li><strong>🔧 Cambiado:</strong> Grid de herramientas fijo a 2 columnas centradas.</li>
+                        <li><strong>🔧 Cambiado:</strong> Modo oscuro adaptado a la nueva paleta.</li>
+                        <li><strong>🔧 Cambiado:</strong> Validaciones de entrada con <code>validarNumero</code> y <code>validarEntero</code>.</li>
+                        <li><strong>🐛 Corregido:</strong> Codificación UTF-8 en el generador de mensajes.</li>
+                        <li><strong>🐛 Corregido:</strong> Tooltips recortados (se cambió a <code>overflow: visible</code> y <code>z-index</code> alto).</li>
+                        <li><strong>🐛 Corregido:</strong> Desalineación del grid (fijado a 2 columnas).</li>
+                        <li><strong>🐛 Corregido:</strong> Navegación del menú flotante (prevención de hash y scroll suave).</li>
+                        <li><strong>🧠 Detalles técnicos:</strong> Event delegation, objetos <code>generadores</code>/<code>limpiadores</code>, función <code>normalizar</code>, toast personalizado, persistencia del tema.</li>
                     </ul>
                 </div>
 
                 <!-- Versión 1.0.0 -->
                 <div class="version-card">
-                    <h3>[1.0.0] - 2026-02-09</h3>
+                    <h3>[1.0.0] - 2026-02-10</h3>
                     <ul>
-                        <li><strong>🎉 Versión inicial:</strong> lanzamiento con 6 herramientas básicas (descuento, % inicial, monto inicial, confirmación, recordatorio, script).</li>
-                        <li>Funcionalidades: cálculos automáticos, formato de pesos, copiar al portapapeles, modo oscuro, patrón azteca, estilo minimalista.</li>
-                    </ul>
-                </div>
-
-                <!-- Versión 0.9.0 -->
-                <div class="version-card">
-                    <h3>[0.9.0] - 2026-02-05</h3>
-                    <ul>
-                        <li><strong>Prototipo inicial:</strong> pruebas de concepto con calculadoras simples y definición de identidad "Hecho por cobradores, para cobradores".</li>
+                        <li><strong>🎉 Versión inicial:</strong> Lanzamiento con 6 herramientas básicas (descuento, % inicial, monto inicial, confirmación, recordatorio, script).</li>
+                        <li>Funcionalidades: cálculos en tiempo real, formato moneda MXN, botones copiar/limpiar, modo oscuro con localStorage, patrón azteca, diseño responsive.</li>
+                        <li><strong>Limitaciones conocidas:</strong> Sin validación de campos, plantillas fijas, sin generador masivo, sin tooltips, problemas menores de alineación.</li>
                     </ul>
                 </div>
             </div>
@@ -217,7 +179,6 @@
         </div>
     </footer>
 
-    <!-- Toast (se usa en script.js pero aquí no hay acciones de copiado; se incluye por si acaso) -->
     <div id="toast" class="toast hidden">✅ Copiado</div>
 </body>
 </html>
