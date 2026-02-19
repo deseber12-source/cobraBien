@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de mensajes Email/WhatsApp | CobraBien v2.1.1</title>
+    <title>Generador de mensajes Email/WhatsApp | CobraBien v2.2</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Genera mensajes personalizados masivos desde Excel para cobranza.">
     <link rel="stylesheet" href="styles.css">
@@ -12,151 +12,171 @@
     <script src="generador.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo-container">
-                <div class="logo-img">
-                    <img src="img/logo_sinfondo.png" alt="CobraBien" class="logo">
-                </div>
-                <div class="logo-area">
+    <header class="header-new">
+        <div class="container header-content">
+            <div class="logo-wrapper">
+                <img src="img/logo_sinfondo.png" alt="CobraBien" class="logo">
+                <div class="brand">
                     <h1>CobraBien</h1>
-                    <p class="subtitle">Generador de mensajes Email y WhatsApp</p>
+                    <p class="tagline">Herramientas para cobranza efectiva</p>
                 </div>
+            </div>
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="https://instagram.com" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="https://wa.me/521234567890" target="_blank"><img src="img/whatsapp.png" alt="WhatsApp"></a>
             </div>
             <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo claro/oscuro">🌙</button>
         </div>
     </header>
 
     <main>
-        <a href="index.html" class="back-link">← Volver a herramientas principales</a>
+        <div class="container">
+            <!-- Enlace "Volver" con margen inferior aumentado en CSS -->
+            <a href="index.html" class="back-link">← Volver a herramientas principales</a>
 
-        <div class="wizard">
-            <!-- Indicador de pasos con botón de reinicio -->
-            <div class="steps">
-                <div class="step active" data-step="1">1. Configurar variables</div>
-                <div class="step" data-step="2">2. Crear plantilla</div>
-                <div class="step" data-step="3">3. Subir archivo</div>
-                <div class="step" data-step="4">4. Resultados</div>
-                <button id="reiniciar-btn" class="btn-sm">↺ Reiniciar</button>
-            </div>
-
-            <!-- Paso 1: Configuración inicial -->
-            <div class="step-content active" id="step1">
-                <h2>Configuración inicial</h2>
-                <p>Define las variables que usarás en tus mensajes. Las columnas de tu Excel deben coincidir con estos nombres (no importan mayúsculas, espacios o guiones bajos).</p>
-                <p>La variable <strong>correo</strong> puede ser la dirección de email o el número de teléfono, según el medio que uses (WhatsApp o email).</p>
-
-                <h3>Variables obligatorias</h3>
-                <div class="variables-list">
-                    <div class="variable-item">
-                        <span class="badge">①</span>
-                        <input type="text" id="var-correo" value="correo" placeholder="columna correo o teléfono" required>
-                    </div>
-                    <div class="variable-item">
-                        <span class="badge">②</span>
-                        <input type="text" id="var-nombre" value="nombre" placeholder="columna nombre" required>
-                    </div>
-                </div>
-
-                <h3>Variables adicionales</h3>
-                <div id="variables-adicionales-container">
-                    <!-- Aquí se agregarán dinámicamente -->
-                </div>
-                <button type="button" id="agregar-variable" class="btn-sm">➕ Añadir variable</button>
-
-                <!-- Consejos anti-spam -->
-                <div class="sugerencia">
-                    📱 <strong>Consejos para evitar bloqueos:</strong><br>
-                    • Para <strong>WhatsApp</strong>: evita enviar muchos mensajes seguido, personaliza cada mensaje y no incluyas enlaces sospechosos. Usa la app de escritorio o WhatsApp Business para envíos controlados.<br>
-                    • Para <strong>Email</strong>: usa un asunto personalizado y evita palabras como "urgente", "ganador", "promoción". Considera un servicio de email marketing si envías más de 50 correos.
-                </div>
-
-                <div class="button-group" style="margin-top: 2rem;">
-                    <button id="step1-next" class="btn-generar">Siguiente: Crear plantilla →</button>
+            <!-- Sección de bienvenida interactiva -->
+            <div class="welcome-tool">
+                <button id="btn-info" class="btn-info">ℹ️ ¿Primera vez? Explicación rápida</button>
+                <div id="info-panel" class="info-panel hidden">
+                    <h3>¿Qué hace esta herramienta?</h3>
+                    <p>Genera mensajes personalizados para cobranza (email o WhatsApp) a partir de una plantilla y un archivo Excel/CSV con los datos de tus clientes.</p>
+                    <h4>Cómo funciona:</h4>
+                    <ol>
+                        <li><strong>Configurar variables:</strong> Define los nombres de las columnas de tu archivo (ej. correo, nombre, saldo).</li>
+                        <li><strong>Crear plantilla:</strong> Escribe el mensaje usando <code>{{variable}}</code> (ej. "Hola {{nombre}}, tu saldo es {{saldo}}").</li>
+                        <li><strong>Subir archivo:</strong> Carga tu Excel/CSV (máx. 1000 filas).</li>
+                        <li><strong>Resultados:</strong> Navega fila por fila y copia el mensaje o el resumen.</li>
+                    </ol>
+                    <p><strong>Ejemplo:</strong> Si tu archivo tiene columnas "nombre", "saldo" y una plantilla "Hola {{nombre}}, debes {{saldo}}", el mensaje generado será "Hola Juan, debes $1,500".</p>
+                    <button id="btn-entendido" class="btn-sm btn-generar">¡Entendido!</button>
                 </div>
             </div>
 
-            <!-- Paso 2: Plantilla -->
-            <div class="step-content" id="step2">
-                <h2>Redacta tu plantilla</h2>
-                <p>Usa las variables con doble llave, por ejemplo: <code>{{nombre}}</code>, <code>{{saldo}}</code>.</p>
-
-                <div class="input-group">
-                    <label>Mensaje principal:</label>
-                    <textarea id="plantilla-mensaje" rows="8" placeholder="Escribe aquí la plantilla del mensaje..."></textarea>
+            <div class="wizard">
+                <!-- Indicador de pasos con botón de reinicio -->
+                <div class="steps">
+                    <div class="step active" data-step="1">1. Configurar variables</div>
+                    <div class="step" data-step="2">2. Crear plantilla</div>
+                    <div class="step" data-step="3">3. Subir archivo</div>
+                    <div class="step" data-step="4">4. Resultados</div>
+                    <button id="reiniciar-btn" class="btn-sm">↺ Reiniciar</button>
                 </div>
 
-                <!-- Opción de resumen (v2.1) -->
-                <div class="opcion-resumen">
-                    <label>
-                        <input type="checkbox" id="habilitar-resumen">
-                        <span>¿Definir plantilla de resumen adicional?</span>
-                    </label>
-                    <div id="resumen-container" style="display: none;">
-                        <div class="input-group">
-                            <label>Plantilla de resumen:</label>
-                            <textarea id="plantilla-resumen" rows="4" placeholder="Escribe aquí la plantilla de resumen..."></textarea>
-                            <small>Este texto se mostrará en el paso de resultados y podrás copiarlo fácilmente.</small>
+                <!-- Paso 1: Configuración inicial -->
+                <div class="step-content active" id="step1">
+                    <h2>Configuración inicial</h2>
+                    <p>Define las variables que usarás en tus mensajes. Las columnas de tu Excel deben coincidir con estos nombres (no importan mayúsculas, espacios o guiones bajos).</p>
+                    <p>La variable <strong>correo</strong> puede ser la dirección de email o el número de teléfono, según el medio que uses (WhatsApp o email).</p>
+
+                    <h3>Variables obligatorias</h3>
+                    <div class="variables-list">
+                        <div class="variable-item">
+                            <span class="badge">①</span>
+                            <input type="text" id="var-correo" value="correo" placeholder="columna correo o teléfono" required>
+                        </div>
+                        <div class="variable-item">
+                            <span class="badge">②</span>
+                            <input type="text" id="var-nombre" value="nombre" placeholder="columna nombre" required>
                         </div>
                     </div>
+
+                    <h3>Variables adicionales</h3>
+                    <div id="variables-adicionales-container"></div>
+                    <button type="button" id="agregar-variable" class="btn-sm">➕ Añadir variable</button>
+
+                    <!-- Consejos anti-spam -->
+                    <div class="sugerencia">
+                        📱 <strong>Consejos para evitar bloqueos:</strong><br>
+                        • Para <strong>WhatsApp</strong>: evita enviar muchos mensajes seguido, personaliza cada mensaje y no incluyas enlaces sospechosos. Usa la app de escritorio o WhatsApp Business para envíos controlados.<br>
+                        • Para <strong>Email</strong>: usa un asunto personalizado y evita palabras como "urgente", "ganador", "promoción". Considera un servicio de email marketing si envías más de 50 correos.
+                    </div>
+
+                    <div class="button-group" style="margin-top: 2rem;">
+                        <button id="step1-next" class="btn-generar">Siguiente: Crear plantilla →</button>
+                    </div>
                 </div>
 
-                <div class="sugerencia">
-                    💡 <strong>Sugerencia:</strong> Si vas a enviar por email, recuerda personalizar el asunto para evitar spam. Esta herramienta solo genera el cuerpo del mensaje.
+                <!-- Paso 2: Plantilla -->
+                <div class="step-content" id="step2">
+                    <h2>Redacta tu plantilla</h2>
+                    <p>Usa las variables con doble llave, por ejemplo: <code>{{nombre}}</code>, <code>{{saldo}}</code>.</p>
+
+                    <div class="input-group">
+                        <label>Mensaje principal:</label>
+                        <textarea id="plantilla-mensaje" rows="8" placeholder="Escribe aquí la plantilla del mensaje..."></textarea>
+                    </div>
+
+                    <!-- Opción de resumen -->
+                    <div class="opcion-resumen">
+                        <label>
+                            <input type="checkbox" id="habilitar-resumen">
+                            <span>¿Definir plantilla de resumen adicional?</span>
+                        </label>
+                        <div id="resumen-container" style="display: none;">
+                            <div class="input-group">
+                                <label>Plantilla de resumen:</label>
+                                <textarea id="plantilla-resumen" rows="4" placeholder="Escribe aquí la plantilla de resumen..."></textarea>
+                                <small>Este texto se mostrará en el paso de resultados y podrás copiarlo fácilmente.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sugerencia">
+                        💡 <strong>Sugerencia:</strong> Si vas a enviar por email, recuerda personalizar el asunto para evitar spam. Esta herramienta solo genera el cuerpo del mensaje.
+                    </div>
+
+                    <div id="checklist-variables">
+                        <h3>Variables disponibles:</h3>
+                        <div id="variables-disponibles" class="variables-list"></div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="step2-prev" class="btn-limpiar">← Anterior</button>
+                        <button id="step2-next" class="btn-generar">Siguiente: Subir archivo →</button>
+                    </div>
                 </div>
 
-                <div id="checklist-variables">
-                    <h3>Variables disponibles:</h3>
-                    <div id="variables-disponibles" class="variables-list"></div>
+                <!-- Paso 3: Subir archivo -->
+                <div class="step-content" id="step3">
+                    <h2>Sube tu archivo Excel o CSV</h2>
+                    <p>Selecciona un archivo con las columnas que definiste. Máximo 1000 filas (sin contar encabezados).</p>
+
+                    <div class="file-upload" id="file-upload-area">
+                        <input type="file" id="file-input" accept=".xlsx,.xls,.csv">
+                        <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Formatos soportados: .xlsx, .xls, .csv</p>
+                    </div>
+
+                    <div id="preview-container" style="display: none;">
+                        <h3>Vista previa (primeras 5 filas)</h3>
+                        <div class="preview-table" id="preview-table"></div>
+                        <p id="row-count"></p>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="step3-prev" class="btn-limpiar">← Anterior</button>
+                        <button id="step3-next" class="btn-generar" disabled>Siguiente: Generar mensajes →</button>
+                    </div>
                 </div>
 
-                <div class="button-group">
-                    <button id="step2-prev" class="btn-limpiar">← Anterior</button>
-                    <button id="step2-next" class="btn-generar">Siguiente: Subir archivo →</button>
-                </div>
-            </div>
+                <!-- Paso 4: Resultados -->
+                <div class="step-content" id="step4">
+                    <h2>Mensajes generados</h2>
+                    <p>Aquí tienes los mensajes personalizados. Navega entre las filas y copia lo que necesites.</p>
+                    <p><small>ℹ️ El campo "correo" corresponde a la columna que definiste; puede ser email o teléfono según tu necesidad.</small></p>
 
-            <!-- Paso 3: Subir archivo -->
-            <div class="step-content" id="step3">
-                <h2>Sube tu archivo Excel o CSV</h2>
-                <p>Selecciona un archivo con las columnas que definiste. Máximo 1000 filas (sin contar encabezados).</p>
+                    <div id="navegacion-resultados">
+                        <button id="resultado-anterior" class="btn-sm" disabled>← Anterior</button>
+                        <span id="contador-fila">Fila 1 de 0</span>
+                        <button id="resultado-siguiente" class="btn-sm" disabled>Siguiente →</button>
+                    </div>
 
-                <div class="file-upload" id="file-upload-area">
-                    <input type="file" id="file-input" accept=".xlsx,.xls,.csv">
-                    <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
-                    <p style="font-size: 0.9rem; opacity: 0.7;">Formatos soportados: .xlsx, .xls, .csv</p>
-                </div>
+                    <div id="resultado-actual" class="result-item"></div>
 
-                <div id="preview-container" style="display: none;">
-                    <h3>Vista previa (primeras 5 filas)</h3>
-                    <div class="preview-table" id="preview-table"></div>
-                    <p id="row-count"></p>
-                </div>
-
-                <div class="button-group">
-                    <button id="step3-prev" class="btn-limpiar">← Anterior</button>
-                    <button id="step3-next" class="btn-generar" disabled>Siguiente: Generar mensajes →</button>
-                </div>
-            </div>
-
-            <!-- Paso 4: Resultados (sin botón masivo) -->
-            <div class="step-content" id="step4">
-                <h2>Mensajes generados</h2>
-                <p>Aquí tienes los mensajes personalizados. Navega entre las filas y copia lo que necesites.</p>
-                <p><small>ℹ️ El campo "correo" corresponde a la columna que definiste; puede ser email o teléfono según tu necesidad.</small></p>
-
-                <div id="navegacion-resultados">
-                    <button id="resultado-anterior" class="btn-sm" disabled>← Anterior</button>
-                    <span id="contador-fila">Fila 1 de 0</span>
-                    <button id="resultado-siguiente" class="btn-sm" disabled>Siguiente →</button>
-                </div>
-
-                <div id="resultado-actual" class="result-item">
-                    <!-- Se llena con JS -->
-                </div>
-
-                <div class="button-group" style="margin-top: 2rem;">
-                    <button id="step4-prev" class="btn-limpiar">← Anterior</button>
+                    <div class="button-group" style="margin-top: 2rem;">
+                        <button id="step4-prev" class="btn-limpiar">← Anterior</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,10 +185,19 @@
     <!-- Toast -->
     <div id="toast" class="toast hidden">✅ Mensaje copiado</div>
 
-    <footer>
-        <p class="footer-sugerencia">💬 ¿Te sirvió esta herramienta? Ayúdanos a mejorar enviando tu sugerencia por WhatsApp</p>
-        <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
-        <p class="footer-credito">Creado por Ismael Palencia, 2026</p>
+    <footer class="footer-new">
+        <div class="container footer-content">
+            <div class="footer-social">
+                <a href="https://facebook.com" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="https://instagram.com" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="https://wa.me/521234567890" target="_blank"><img src="img/whatsapp.png" alt="WhatsApp"></a>
+            </div>
+            <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
+            <p class="footer-credito">
+                Creado por Ismael Palencia, 2026 |
+                <a href="CHANGELOG.md" target="_blank">Versión 2.2</a>
+            </p>
+        </div>
     </footer>
 </body>
 </html>
