@@ -2,16 +2,20 @@
 
 Todas las mejoras y correcciones notables del proyecto se documentarán en este archivo.
 
-## [[2.2]] 2026-02-18
-Version mejorada de la herramienta de generador de mensajes
+## [2.2] - 2026-02-18
+### Añadido
+- Panel de bienvenida interactivo en el generador de mensajes.
+- Soporte para plantilla de resumen independiente.
+- Estilos unificados con la página principal.
+- Enlaces a redes sociales con iconos reales.
 
+### Cambiado
+- Mejora en la navegación del wizard.
+- El botón "Volver a herramientas" ahora tiene más separación.
+- Actualización del número de WhatsApp para sugerencias.
 
-# [2.1.1]
-Actualizacion interna: se quita styles de generador-mensajes.html y se pasa a styles.css
-
-## [2.1] 
-Mejorar la herramienta de generar mensajes para correos y WA: se modifica la funcion de generar resumenes con una opcion del usuario si desea generar el resumen; si sí, el usuario define otra plantilla independiente a la plantilla del cuerpo del correo/wa. Se quita el boton de "generar todos los resumene"
-
+### Eliminado
+- Botón "Copiar todos los resúmenes" (reemplazado por copia individual).
 
 
 ## [2.0.0] - 2026-02-16
