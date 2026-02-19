@@ -55,7 +55,7 @@
             adicionales: []
         },
         plantilla: '',
-        plantillaResumen: '',   // NUEVA
+        plantillaResumen: '',
         datos: [],
         cabeceras: [],
         cabecerasOriginales: [],
@@ -68,7 +68,6 @@
     const agregarVarBtn = document.getElementById('agregar-variable');
     const contenedorAdicionales = document.getElementById('variables-adicionales-container');
     const plantillaTextarea = document.getElementById('plantilla-mensaje');
-    // NUEVAS referencias para resumen
     const habilitarResumenCheck = document.getElementById('habilitar-resumen');
     const resumenContainer = document.getElementById('resumen-container');
     const plantillaResumenTextarea = document.getElementById('plantilla-resumen');
@@ -139,7 +138,7 @@
     habilitarResumenCheck.addEventListener('change', function() {
         resumenContainer.style.display = this.checked ? 'block' : 'none';
         if (!this.checked) {
-            plantillaResumenTextarea.value = ''; // limpiar si se desmarca
+            plantillaResumenTextarea.value = '';
         }
     });
 
@@ -160,7 +159,6 @@
             mostrarToast('❌ Escribe una plantilla');
             return;
         }
-        // Guardar plantilla de resumen si está habilitada
         if (habilitarResumenCheck.checked) {
             state.plantillaResumen = plantillaResumenTextarea.value;
         } else {
@@ -343,7 +341,6 @@
         resultadoAnterior.disabled = state.filaActual === 0;
         resultadoSiguiente.disabled = state.filaActual === state.datos.length - 1;
 
-        // Construir HTML del resultado
         let html = `
             <div><strong>📧 ${correo}</strong> (${nombre})</div>
             <div style="background:var(--bg-color); padding:0.8rem; border-radius:0.8rem; margin:0.5rem 0; white-space: pre-wrap;"><strong>Mensaje:</strong> ${mensaje}</div>
@@ -370,7 +367,6 @@
 
         resultadoActual.innerHTML = html;
 
-        // Reasignar eventos a los botones de copiar
         resultadoActual.querySelectorAll('.btn-copiar').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = btn.getAttribute('data-copiar');
@@ -427,6 +423,20 @@
             mostrarToast('🔄 Todo reiniciado');
         }
     });
+
+    // Botón de información de bienvenida
+    const btnInfo = document.getElementById('btn-info');
+    const infoPanel = document.getElementById('info-panel');
+    const btnEntendido = document.getElementById('btn-entendido');
+
+    if (btnInfo && infoPanel && btnEntendido) {
+        btnInfo.addEventListener('click', () => {
+            infoPanel.classList.toggle('hidden');
+        });
+        btnEntendido.addEventListener('click', () => {
+            infoPanel.classList.add('hidden');
+        });
+    }
 
     // Inicializar
     actualizarChecklistVariables();
