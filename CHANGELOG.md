@@ -2,6 +2,12 @@
 
 Todas las mejoras y correcciones notables del proyecto se documentarán en este archivo.
 
+
+## [2.1] 2026-02-18
+Mejorar la herramienta de generar mensajes para correos y WA: se modifica la funcion de generar resumenes con una opcion del usuario si desea generar el resumen; si sí, el usuario define otra plantilla independiente a la plantilla del cuerpo del correo/wa. Se quita el boton de "generar todos los resumene"
+
+
+
 ## [2.0.0] - 2026-02-16
 
 ### ✨ Nueva imagen profesional
