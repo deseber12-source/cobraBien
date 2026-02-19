@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novedades · CobraBien</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <meta name="description" content="Historial de versiones y novedades de CobraBien.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Fuente Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="header-new">
+        <div class="container header-content">
+            <div class="logo-wrapper">
+                <img src="img/logo_sinfondo.png" alt="CobraBien" class="logo">
+                <div class="brand">
+                    <h1>CobraBien</h1>
+                    <p class="tagline">Hecho por cobradores, para cobradores</p>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://facebook.com/tuPagina" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="https://instagram.com/tuPagina" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="https://wa.me/521234567890" target="_blank"><img src="img/whatsapp.png" alt="WhatsApp"></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo claro/oscuro">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="index.html" class="back-link">← Volver a herramientas</a>
+            <h2 style="margin-bottom: 2rem; color: var(--primary-green);">Historial de versiones y novedades</h2>
+
+            <div class="versions-list">
+                <!-- Versión 2.4 -->
+                <div class="version-card">
+                    <h3>[2.4] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Nueva página <code>versiones.html</code> que muestra el historial completo de cambios en un formato visual atractivo (tarjetas de versiones).</li>
+                        <li><strong>Añadido:</strong> Enlace a "Novedades v2.4" en el footer del <code>index.html</code> para que los usuarios puedan conocer las actualizaciones.</li>
+                        <li><strong>Añadido:</strong> Estilos específicos para las tarjetas de versiones en <code>styles.css</code>.</li>
+                        <li><strong>Mejorado:</strong> Texto del footer más amigable y claro, invitando a enviar sugerencias.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.3 -->
+                <div class="version-card">
+                    <h3>[2.3] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Persistencia del estado con <code>sessionStorage</code>:
+                            <ul>
+                                <li>Al recargar la página se restauran variables, plantillas, archivo cargado (si es pequeño) y la fila actual.</li>
+                                <li>Advertencia al intentar cerrar o recargar si hay datos sin guardar.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Añadido:</strong> Navegación rápida en el paso de resultados: campo numérico y botón "Ir" para saltar directamente a cualquier fila.</li>
+                        <li><strong>Añadido:</strong> Mensaje más amigable en el botón de sugerencias: "¿Te gustó la herramienta o tienes alguna sugerencia? ¡Queremos mejorar! Escríbenos por WhatsApp."</li>
+                        <li><strong>Mejorado:</strong> Optimización de almacenamiento: si el archivo cargado excede 4 MB, se guarda la configuración pero no los datos.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.2 -->
+                <div class="version-card">
+                    <h3>[2.2] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Unificación de estilos con la página principal (<code>index.html</code>).</li>
+                        <li><strong>Añadido:</strong> Header y footer rediseñados con la misma estructura y clases.</li>
+                        <li><strong>Añadido:</strong> Enlaces a redes sociales con iconos reales (Facebook, Instagram, WhatsApp).</li>
+                        <li><strong>Añadido:</strong> Panel de bienvenida interactivo para guiar a nuevos usuarios.</li>
+                        <li><strong>Cambiado:</strong> El botón "Volver a herramientas principales" ahora tiene más separación visual.</li>
+                        <li><strong>Eliminado:</strong> Botón "Copiar todos los resúmenes" por ser poco práctico.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.1.2 -->
+                <div class="version-card">
+                    <h3>[2.1.2] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Botón "¿Primera vez? Explicación rápida" con panel desplegable que explica el funcionamiento paso a paso.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.1.1 -->
+                <div class="version-card">
+                    <h3>[2.1.1] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Cambiado:</strong> Separación de estilos: todos los CSS del generador se movieron a <code>styles.css</code> para mantener consistencia con el index.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.1 -->
+                <div class="version-card">
+                    <h3>[2.1] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Posibilidad de definir una plantilla de resumen independiente.</li>
+                        <li><strong>Añadido:</strong> En el paso de resultados se muestra tanto el mensaje principal como el resumen (si se definió).</li>
+                        <li><strong>Añadido:</strong> Botón "Copiar resumen" que copia el contenido generado con esa plantilla.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.0 -->
+                <div class="version-card">
+                    <h3>[2.0] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Versión inicial del generador de mensajes con wizard de 4 pasos.</li>
+                        <li><strong>Añadido:</strong> Carga de archivos Excel/CSV mediante SheetJS.</li>
+                        <li><strong>Añadido:</strong> Formato automático de números a moneda MXN.</li>
+                        <li><strong>Añadido:</strong> Navegación fila por fila y copiado individual.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 2.0.0 (rediseño) -->
+                <div class="version-card">
+                    <h3>[2.0.0] - 2026-02-16</h3>
+                    <ul>
+                        <li><strong>✨ Nueva imagen profesional:</strong> rediseño completo inspirado en colores de margarita (<code>#FFE7A0</code>, <code>#8CB27C</code>), tipografía Poppins.</li>
+                        <li><strong>🧭 Navegación mejorada:</strong> menú flotante con iconos, scroll suave.</li>
+                        <li><strong>🆕 Nuevas herramientas:</strong> generador de mensajes desde Excel y tarjeta "Próximamente".</li>
+                        <li><strong>⚙️ Mejoras en herramientas existentes:</strong> plantillas personalizables, botón restaurar, tooltips explicativos.</li>
+                        <li><strong>📱 Experiencia de usuario:</strong> vista fila por fila, notificaciones toast, límite de 1000 filas.</li>
+                        <li><strong>🎨 Estilos y alineación:</strong> grid centrado, tooltips visibles, modo oscuro adaptado.</li>
+                        <li><strong>📊 Analytics:</strong> integración de Google Analytics.</li>
+                        <li><strong>🐛 Correcciones:</strong> codificación UTF-8, tooltips recortados, alineación de tarjetas.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 1.0.0 -->
+                <div class="version-card">
+                    <h3>[1.0.0] - 2026-02-10</h3>
+                    <ul>
+                        <li><strong>Versión inicial:</strong> 6 herramientas básicas, modo oscuro/claro, formato de pesos, copiar al portapapeles, diseño responsive.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin: 3rem 0;">
+                <a href="CHANGELOG.md" target="_blank" style="color: var(--primary-green);">Ver archivo CHANGELOG.md completo</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer-new">
+        <div class="container footer-content">
+            <div class="footer-social">
+                <a href="https://facebook.com/tuPagina" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="https://instagram.com/tuPagina" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="https://wa.me/521234567890" target="_blank"><img src="img/whatsapp.png" alt="WhatsApp"></a>
+            </div>
+            <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
+            <p class="footer-credito">
+                ¿Te gustó la herramienta o tienes alguna sugerencia? ¡Queremos mejorar! Escríbenos por WhatsApp. <br>
+                Creado por Ismael Palencia, 2026 · Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Toast (se usa en script.js pero aquí no hay acciones de copiado; se incluye por si acaso) -->
+    <div id="toast" class="toast hidden">✅ Copiado</div>
+</body>
+</html>
