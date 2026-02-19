@@ -6,6 +6,14 @@
     <title>Novedades · CobraBien</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Historial de versiones y novedades de CobraBien.">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-80WCM4B3E6');
+    </script>
     <link rel="stylesheet" href="styles.css">
     <!-- Fuente Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +46,18 @@
             <h2 style="margin-bottom: 2rem; color: var(--primary-green);">Historial de versiones y novedades</h2>
 
             <div class="versions-list">
+                <!-- Versión 2.4.1 -->
+                <div class="version-card">
+                    <h3>[2.4.1] - 2026-02-18</h3>
+                    <ul>
+                        <li><strong>Añadido:</strong> Opción de redondear hacia arriba en las calculadoras de descuento, porcentaje y monto.</li>
+                        <li><strong>Añadido:</strong> Checkbox con leyenda "Redondear hacia arriba" y recomendación: "para que no falte ni un centavo".</li>
+                        <li><strong>Añadido:</strong> La funcionalidad afecta los montos finales, anticipos y mensualidades según corresponda.</li>
+                        <li><strong>Añadido:</strong> Al limpiar cada herramienta, también se desmarca el checkbox.</li>
+                        <li><strong>Mejorado:</strong> Mayor precisión en los mensajes generados, dando control al usuario sobre el redondeo.</li>
+                    </ul>
+                </div>
+
                 <!-- Versión 2.4 -->
                 <div class="version-card">
                     <h3>[2.4] - 2026-02-18</h3>
@@ -119,22 +139,59 @@
                 <div class="version-card">
                     <h3>[2.0.0] - 2026-02-16</h3>
                     <ul>
-                        <li><strong>✨ Nueva imagen profesional:</strong> rediseño completo inspirado en colores de margarita (<code>#FFE7A0</code>, <code>#8CB27C</code>), tipografía Poppins.</li>
-                        <li><strong>🧭 Navegación mejorada:</strong> menú flotante con iconos, scroll suave.</li>
-                        <li><strong>🆕 Nuevas herramientas:</strong> generador de mensajes desde Excel y tarjeta "Próximamente".</li>
-                        <li><strong>⚙️ Mejoras en herramientas existentes:</strong> plantillas personalizables, botón restaurar, tooltips explicativos.</li>
-                        <li><strong>📱 Experiencia de usuario:</strong> vista fila por fila, notificaciones toast, límite de 1000 filas.</li>
+                        <li><strong>✨ Nueva identidad visual "Margarita":</strong> rediseño completo inspirado en colores cálidos de margaritas (#FFE7A0, #8CB27C), tipografía Poppins, header y footer renovados.</li>
+                        <li><strong>🧭 Navegación y usabilidad:</strong> menú flotante con iconos, scroll suave, nota explicativa.</li>
+                        <li><strong>🆕 Nuevas herramientas:</strong> generador de mensajes desde Excel (página independiente) y tarjeta "Próximamente".</li>
+                        <li><strong>⚙️ Mejoras en herramientas existentes:</strong> plantillas personalizables, botón restaurar, tooltips informativos, formato de moneda.</li>
+                        <li><strong>📱 Experiencia de usuario:</strong> notificaciones toast, navegación fila por fila, validación de columnas, límite de 1000 filas.</li>
                         <li><strong>🎨 Estilos y alineación:</strong> grid centrado, tooltips visibles, modo oscuro adaptado.</li>
-                        <li><strong>📊 Analytics:</strong> integración de Google Analytics.</li>
-                        <li><strong>🐛 Correcciones:</strong> codificación UTF-8, tooltips recortados, alineación de tarjetas.</li>
+                        <li><strong>📊 Analítica:</strong> integración de Google Analytics.</li>
+                        <li><strong>🐛 Correcciones:</strong> codificación UTF-8, tooltips recortados, alineación de tarjetas, fecha en recordatorios.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 1.5.0 -->
+                <div class="version-card">
+                    <h3>[1.5.0] - 2026-02-14</h3>
+                    <ul>
+                        <li><strong>🚀 Mejoras intermedias previas al rediseño:</strong></li>
+                        <li>Validación de columnas en el generador de mensajes (prototipo).</li>
+                        <li>Formato de moneda automático.</li>
+                        <li>Límite de 1000 filas en carga de Excel.</li>
+                        <li>Primeros tooltips de ayuda.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 1.2.0 -->
+                <div class="version-card">
+                    <h3>[1.2.0] - 2026-02-12</h3>
+                    <ul>
+                        <li><strong>🧪 Versión de prueba del generador de mensajes:</strong> creación de <code>generador-mensajes.html</code> con funcionalidad básica, vista previa y corrección de coincidencia de columnas.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 1.1.0 -->
+                <div class="version-card">
+                    <h3>[1.1.0] - 2026-02-10</h3>
+                    <ul>
+                        <li><strong>🧭 Primer menú flotante:</strong> implementación experimental en index.html y botón de modo oscuro con persistencia.</li>
                     </ul>
                 </div>
 
                 <!-- Versión 1.0.0 -->
                 <div class="version-card">
-                    <h3>[1.0.0] - 2026-02-10</h3>
+                    <h3>[1.0.0] - 2026-02-09</h3>
                     <ul>
-                        <li><strong>Versión inicial:</strong> 6 herramientas básicas, modo oscuro/claro, formato de pesos, copiar al portapapeles, diseño responsive.</li>
+                        <li><strong>🎉 Versión inicial:</strong> lanzamiento con 6 herramientas básicas (descuento, % inicial, monto inicial, confirmación, recordatorio, script).</li>
+                        <li>Funcionalidades: cálculos automáticos, formato de pesos, copiar al portapapeles, modo oscuro, patrón azteca, estilo minimalista.</li>
+                    </ul>
+                </div>
+
+                <!-- Versión 0.9.0 -->
+                <div class="version-card">
+                    <h3>[0.9.0] - 2026-02-05</h3>
+                    <ul>
+                        <li><strong>Prototipo inicial:</strong> pruebas de concepto con calculadoras simples y definición de identidad "Hecho por cobradores, para cobradores".</li>
                     </ul>
                 </div>
             </div>
