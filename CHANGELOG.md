@@ -2,6 +2,15 @@
 
 Todas las mejoras y correcciones notables del proyecto se documentarán en este archivo.
 
+## [2.4] - 2026-02-18
+### Añadido
+- Nueva página `versiones.html` que muestra el historial completo de cambios en un formato visual atractivo (tarjetas de versiones).
+- Enlace a "Novedades v2.4" en el footer del `index.html` para que los usuarios puedan conocer las actualizaciones.
+- Estilos específicos para las tarjetas de versiones en `styles.css`.
+
+### Mejorado
+- Texto del footer más amigable y claro, invitando a enviar sugerencias.
+
 ## [2.3] - 2026-02-18
 ### Añadido
 - Persistencia del estado con `sessionStorage`:
@@ -44,7 +53,6 @@ Todas las mejoras y correcciones notables del proyecto se documentarán en este 
 - Carga de archivos Excel/CSV mediante SheetJS.
 - Formato automático de números a moneda MXN.
 - Navegación fila por fila y copiado individual.
-
 
 ## [2.0.0] - 2026-02-16
 
