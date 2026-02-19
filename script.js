@@ -1,5 +1,5 @@
 /**
- * CobraBien.com - Versión con plantillas personalizables y ayuda
+ * CobraBien.com - Versión con plantillas personalizables, ayuda y redondeo opcional
  */
 
 (function() {
@@ -57,25 +57,28 @@
     };
 
     // ==============================================
-    // 4. FUNCIONES DE GENERACIÓN (con plantilla personalizada)
+    // 4. FUNCIONES DE GENERACIÓN (con plantilla personalizada y redondeo)
     // ==============================================
     const generadores = {
         descuento: () => {
             const saldo = validarNumero(document.getElementById('descuento-saldo').value, 0);
             const porcentaje = validarNumero(document.getElementById('descuento-porcentaje').value, 0, 0);
             const fecha = document.getElementById('descuento-fecha').value;
-            const montoFinal = saldo - (saldo * porcentaje / 100);
+            let montoFinal = saldo - (saldo * porcentaje / 100);
+
+            // Redondeo opcional
+            const redondear = document.getElementById('descuento-redondear')?.checked || false;
+            if (redondear) montoFinal = Math.ceil(montoFinal);
+
             document.getElementById('descuento-monto-final').innerHTML = formatoMXN(montoFinal);
 
             const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha no especificada]';
 
-            // Obtener plantilla personalizada o usar defecto
             let plantilla = document.getElementById('descuento-plantilla').value.trim();
             if (!plantilla) {
                 plantilla = plantillasDefecto.descuento;
             }
 
-            // Reemplazar variables
             let mensaje = plantilla
                 .replace(/{{saldo}}/g, formatoMXN(saldo))
                 .replace(/{{porcentaje}}/g, porcentaje)
@@ -89,8 +92,15 @@
             const pInicial = validarNumero(document.getElementById('porcentaje-inicial').value, 0, 0);
             const meses = validarEntero(document.getElementById('porcentaje-meses').value, 1);
             const fecha = document.getElementById('porcentaje-fecha').value;
-            const anticipo = saldo * pInicial / 100;
-            const mensualidad = meses > 0 ? (saldo - anticipo) / meses : 0;
+            let anticipo = saldo * pInicial / 100;
+            let mensualidad = meses > 0 ? (saldo - anticipo) / meses : 0;
+
+            const redondear = document.getElementById('porcentaje-redondear')?.checked || false;
+            if (redondear) {
+                anticipo = Math.ceil(anticipo);
+                mensualidad = Math.ceil(mensualidad);
+            }
+
             document.getElementById('porcentaje-anticipo').innerHTML = formatoMXN(anticipo);
             document.getElementById('porcentaje-mensualidad').innerHTML = formatoMXN(mensualidad);
 
@@ -111,10 +121,17 @@
         },
         monto: () => {
             const saldo = validarNumero(document.getElementById('monto-saldo').value, 0);
-            const inicial = validarNumero(document.getElementById('monto-inicial').value, 0);
+            let inicial = validarNumero(document.getElementById('monto-inicial').value, 0);
             const meses = validarEntero(document.getElementById('monto-meses').value, 1);
             const fecha = document.getElementById('monto-fecha').value;
-            const mensualidad = meses > 0 ? (saldo - inicial) / meses : 0;
+            let mensualidad = meses > 0 ? (saldo - inicial) / meses : 0;
+
+            const redondear = document.getElementById('monto-redondear')?.checked || false;
+            if (redondear) {
+                mensualidad = Math.ceil(mensualidad);
+                // No redondeamos inicial porque es un dato fijo del usuario
+            }
+
             document.getElementById('monto-mensualidad').innerHTML = formatoMXN(mensualidad);
 
             const fechaStr = fecha ? fecha.split('-').reverse().join('/') : '[fecha no especificada]';
@@ -177,7 +194,6 @@
             const fechaCompromiso = fecha ? fecha.split('-').reverse().join('/') : '[Fecha]';
             const montoStr = monto > 0 ? formatoMXN(monto) : '[Monto]';
 
-            // El script no tiene plantilla personalizable por ahora
             const mensaje = `Buenas tardes, ¿hablo con el señor(a) [Nombre del Cliente]?\n\nMi nombre es ${asesor}, asesor de ${despacho}, y me comunico en representación de ${empresa}.\n\nEl motivo de mi llamada es conversar con usted respecto a su saldo pendiente.\n\nAntes de continuar, me gustaría escucharle. ¿Podría comentarme cuál fue el motivo por el cual no le fue posible realizar su pago?\n\n[NOTA PARA EL ASESOR: En este momento es importante escuchar al cliente y entender su situación. No interrumpir.]\n\n---\n\nComprendo, gracias por compartirlo.\n\nActualmente su cuenta presenta un atraso que requiere atención, y mi intención es ayudarle a encontrar una solución viable.\n\n[NOTA PARA EL ASESOR: En este punto, el asesor YA DEBE TENER ABIERTA LA CALCULADORA DE CobraBien en otra pestaña, para tener listas las opciones.]\n\n---\n\nNegociación:\n\nPermítame comentarle las opciones disponibles para regularizar su situación.\n\n[El asesor presenta las opciones previamente calculadas]\n\nEs importante poder generar hoy mismo un acuerdo que le permita resolver esta situación.\n\n---\n\nConfirmación:\n\nEntonces, para confirmar:\n\nUsted estaría realizando un pago de ${montoStr} el día ${fechaCompromiso}.\n\n¿Es correcto?\n\n---\n\nCierre:\n\nPerfecto, agradezco su disposición.\n\nLe estaré enviando un mensaje por WhatsApp con los detalles de su acuerdo.\n\nQuedo atento y a sus órdenes.`;
 
             document.getElementById('script-mensaje').value = mensaje;
@@ -185,7 +201,7 @@
     };
 
     // ==============================================
-    // 5. FUNCIONES DE LIMPIEZA (incluyen limpiar plantillas personalizadas)
+    // 5. FUNCIONES DE LIMPIEZA
     // ==============================================
     const limpiadores = {
         descuento: () => {
@@ -193,6 +209,7 @@
             document.getElementById('descuento-porcentaje').value = '';
             document.getElementById('descuento-fecha').value = '';
             document.getElementById('descuento-plantilla').value = '';
+            document.getElementById('descuento-redondear').checked = false;
             generadores.descuento();
         },
         porcentaje: () => {
@@ -201,6 +218,7 @@
             document.getElementById('porcentaje-meses').value = '';
             document.getElementById('porcentaje-fecha').value = '';
             document.getElementById('porcentaje-plantilla').value = '';
+            document.getElementById('porcentaje-redondear').checked = false;
             generadores.porcentaje();
         },
         monto: () => {
@@ -209,6 +227,7 @@
             document.getElementById('monto-meses').value = '';
             document.getElementById('monto-fecha').value = '';
             document.getElementById('monto-plantilla').value = '';
+            document.getElementById('monto-redondear').checked = false;
             generadores.monto();
         },
         confirmacion: () => {
@@ -246,7 +265,6 @@
             const plantillaDefecto = plantillasDefecto[herramienta];
             if (plantillaDefecto) {
                 document.getElementById(`${herramienta}-plantilla`).value = plantillaDefecto;
-                // Opcional: regenerar mensaje
                 if (generadores[herramienta]) generadores[herramienta]();
                 mostrarToast('🔄 Plantilla restaurada');
             }
