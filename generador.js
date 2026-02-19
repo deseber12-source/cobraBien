@@ -45,6 +45,7 @@
         }
         document.querySelector(`.step[data-step="${stepNumber}"]`).classList.add('active');
         document.getElementById(`step${stepNumber}`).classList.add('active');
+        sessionStorage.setItem('cobraBien_currentStep', stepNumber);
     }
 
     // Estado de la aplicación
@@ -88,6 +89,8 @@
     const resultadoSiguiente = document.getElementById('resultado-siguiente');
     const contadorFila = document.getElementById('contador-fila');
     const resultadoActual = document.getElementById('resultado-actual');
+    const irFilaInput = document.getElementById('ir-fila');
+    const btnIrFila = document.getElementById('btn-ir-fila');
 
     // Utilidad para normalizar texto
     function normalizar(str) {
@@ -103,6 +106,7 @@
             .map(inp => normalizar(inp.value))
             .filter(v => v !== '');
         actualizarChecklistVariables();
+        guardarEstadoEnSession();
     }
 
     // Actualizar lista de variables disponibles
@@ -140,6 +144,7 @@
         if (!this.checked) {
             plantillaResumenTextarea.value = '';
         }
+        guardarEstadoEnSession();
     });
 
     // Eventos de navegación
@@ -164,6 +169,7 @@
         } else {
             state.plantillaResumen = '';
         }
+        guardarEstadoEnSession();
         goToStep(3);
     });
 
@@ -259,6 +265,7 @@
 
                 mostrarPreview();
                 step3Next.disabled = false;
+                guardarEstadoEnSession();
             } catch (error) {
                 mostrarToast('❌ Error al leer el archivo');
                 console.error(error);
@@ -378,6 +385,13 @@
                 }
             });
         });
+
+        if (irFilaInput) {
+            irFilaInput.value = state.filaActual + 1;
+            irFilaInput.max = state.datos.length;
+        }
+
+        guardarEstadoEnSession();
     }
 
     // Navegación entre filas
@@ -393,6 +407,18 @@
             mostrarFilaActual();
         }
     });
+
+    // Ir a fila específica
+    if (btnIrFila) {
+        btnIrFila.addEventListener('click', () => {
+            if (!state.datos.length) return;
+            let num = parseInt(irFilaInput.value);
+            if (isNaN(num) || num < 1) num = 1;
+            if (num > state.datos.length) num = state.datos.length;
+            state.filaActual = num - 1;
+            mostrarFilaActual();
+        });
+    }
 
     step4Prev.addEventListener('click', () => goToStep(3));
 
@@ -420,6 +446,8 @@
             step3Next.disabled = true;
             goToStep(1);
             actualizarChecklistVariables();
+            sessionStorage.removeItem('cobraBien_state');
+            sessionStorage.removeItem('cobraBien_currentStep');
             mostrarToast('🔄 Todo reiniciado');
         }
     });
@@ -438,8 +466,87 @@
         });
     }
 
+    // Funciones de persistencia
+    function guardarEstadoEnSession() {
+        try {
+            const datosSize = new Blob([JSON.stringify(state.datos)]).size;
+            if (datosSize > 4 * 1024 * 1024) {
+                const stateToSave = { ...state, datos: [] };
+                sessionStorage.setItem('cobraBien_state', JSON.stringify(stateToSave));
+                sessionStorage.setItem('cobraBien_datosSize', 'large');
+            } else {
+                sessionStorage.setItem('cobraBien_state', JSON.stringify(state));
+                sessionStorage.removeItem('cobraBien_datosSize');
+            }
+        } catch (e) {
+            console.warn('No se pudo guardar el estado en sessionStorage', e);
+        }
+    }
+
+    function cargarEstadoDesdeSession() {
+        try {
+            const saved = sessionStorage.getItem('cobraBien_state');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed.variables) state.variables = parsed.variables;
+                if (parsed.plantilla !== undefined) state.plantilla = parsed.plantilla;
+                if (parsed.plantillaResumen !== undefined) state.plantillaResumen = parsed.plantillaResumen;
+                if (parsed.cabeceras) state.cabeceras = parsed.cabeceras;
+                if (parsed.cabecerasOriginales) state.cabecerasOriginales = parsed.cabecerasOriginales;
+                if (parsed.filaActual !== undefined) state.filaActual = parsed.filaActual;
+                if (parsed.datos && parsed.datos.length > 0) {
+                    state.datos = parsed.datos;
+                } else {
+                    state.datos = [];
+                }
+
+                varCorreo.value = state.variables.correo;
+                varNombre.value = state.variables.nombre;
+                actualizarChecklistVariables();
+
+                plantillaTextarea.value = state.plantilla;
+                if (state.plantillaResumen) {
+                    habilitarResumenCheck.checked = true;
+                    resumenContainer.style.display = 'block';
+                    plantillaResumenTextarea.value = state.plantillaResumen;
+                } else {
+                    habilitarResumenCheck.checked = false;
+                    resumenContainer.style.display = 'none';
+                }
+
+                if (state.datos.length > 0) {
+                    mostrarPreview();
+                    step3Next.disabled = false;
+                }
+
+                const savedStep = sessionStorage.getItem('cobraBien_currentStep');
+                if (savedStep) {
+                    const step = parseInt(savedStep);
+                    if (step >= 1 && step <= 4) {
+                        goToStep(step);
+                        if (step === 4 && state.datos.length > 0) {
+                            mostrarFilaActual();
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('Error al cargar estado de sessionStorage', e);
+        }
+    }
+
+    // Advertencia al recargar/cerrar
+    window.addEventListener('beforeunload', (e) => {
+        if (state.datos.length > 0 || state.plantilla || state.variables.adicionales.length > 0) {
+            const mensaje = 'Hay datos sin guardar. ¿Estás seguro de que quieres salir?';
+            e.returnValue = mensaje;
+            return mensaje;
+        }
+    });
+
     // Inicializar
     actualizarChecklistVariables();
+    cargarEstadoDesdeSession();
 
     // Botón sugerencia (actualiza con tu número real)
     document.getElementById('sugerencia-btn').addEventListener('click', () => {
