@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de mensajes Email/WhatsApp | CobraBien</title>
+    <title>Generador de mensajes Email/WhatsApp | CobraBien v2.1</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Genera mensajes personalizados masivos desde Excel para cobranza.">
     <link rel="stylesheet" href="styles.css">
@@ -169,6 +169,19 @@
         #contador-fila {
             font-weight: 600;
         }
+        /* Estilo para opción de resumen */
+        .opcion-resumen {
+            margin: 1.5rem 0;
+        }
+        .opcion-resumen label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        #resumen-container {
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -236,14 +249,29 @@
                 </div>
             </div>
 
-            <!-- Paso 2: Plantilla -->
+            <!-- Paso 2: Plantilla (MODIFICADO) -->
             <div class="step-content" id="step2">
                 <h2>Redacta tu plantilla</h2>
                 <p>Usa las variables con doble llave, por ejemplo: <code>{{nombre}}</code>, <code>{{saldo}}</code>.</p>
 
                 <div class="input-group">
-                    <label>Mensaje:</label>
-                    <textarea id="plantilla-mensaje" rows="10" placeholder="Escribe aquí tu plantilla..."></textarea>
+                    <label>Mensaje principal:</label>
+                    <textarea id="plantilla-mensaje" rows="8" placeholder="Escribe aquí la plantilla del mensaje..."></textarea>
+                </div>
+
+                <!-- NUEVA OPCIÓN: Plantilla de resumen -->
+                <div class="opcion-resumen">
+                    <label>
+                        <input type="checkbox" id="habilitar-resumen">
+                        <span>¿Definir plantilla de resumen adicional?</span>
+                    </label>
+                    <div id="resumen-container" style="display: none;">
+                        <div class="input-group">
+                            <label>Plantilla de resumen:</label>
+                            <textarea id="plantilla-resumen" rows="4" placeholder="Escribe aquí la plantilla de resumen..."></textarea>
+                            <small>Este texto se mostrará en el paso de resultados y podrás copiarlo fácilmente.</small>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="sugerencia">
@@ -284,7 +312,7 @@
                 </div>
             </div>
 
-            <!-- Paso 4: Resultados con navegación fila por fila -->
+            <!-- Paso 4: Resultados (sin botón de copiar todos los resúmenes) -->
             <div class="step-content" id="step4">
                 <h2>Mensajes generados</h2>
                 <p>Aquí tienes los mensajes personalizados. Navega entre las filas y copia lo que necesites.</p>
@@ -300,9 +328,7 @@
                     <!-- Se llena con JS -->
                 </div>
 
-                <div class="button-group" style="margin-top: 1rem;">
-                    <button id="copiar-todos-resumen" class="btn-copiar">📋 Copiar todos los resúmenes</button>
-                </div>
+                <!-- ELIMINADO: Botón "Copiar todos los resúmenes" -->
 
                 <div class="button-group" style="margin-top: 2rem;">
                     <button id="step4-prev" class="btn-limpiar">← Anterior</button>
