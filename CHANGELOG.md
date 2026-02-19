@@ -2,20 +2,48 @@
 
 Todas las mejoras y correcciones notables del proyecto se documentarán en este archivo.
 
+## [2.3] - 2026-02-18
+### Añadido
+- Persistencia del estado con `sessionStorage`:
+  - Al recargar la página se restauran variables, plantillas, archivo cargado (si es pequeño) y la fila actual.
+  - Advertencia al intentar cerrar o recargar si hay datos sin guardar.
+- Navegación rápida en el paso de resultados: campo numérico y botón "Ir" para saltar directamente a cualquier fila.
+- Mensaje más amigable en el botón de sugerencias: "¿Te gustó la herramienta o tienes alguna sugerencia? ¡Queremos mejorar! Escríbenos por WhatsApp."
+
+### Mejorado
+- Optimización de almacenamiento: si el archivo cargado excede 4 MB, se guarda la configuración pero no los datos.
+
 ## [2.2] - 2026-02-18
 ### Añadido
-- Panel de bienvenida interactivo en el generador de mensajes.
-- Soporte para plantilla de resumen independiente.
-- Estilos unificados con la página principal.
-- Enlaces a redes sociales con iconos reales.
+- Unificación de estilos con la página principal (`index.html`).
+- Header y footer rediseñados con la misma estructura y clases.
+- Enlaces a redes sociales con iconos reales (Facebook, Instagram, WhatsApp).
+- Panel de bienvenida interactivo para guiar a nuevos usuarios.
 
 ### Cambiado
-- Mejora en la navegación del wizard.
-- El botón "Volver a herramientas" ahora tiene más separación.
-- Actualización del número de WhatsApp para sugerencias.
+- El botón "Volver a herramientas principales" ahora tiene más separación visual.
+- Se eliminó el botón "Copiar todos los resúmenes" por ser poco práctico.
 
-### Eliminado
-- Botón "Copiar todos los resúmenes" (reemplazado por copia individual).
+## [2.1.2] - 2026-02-18
+### Añadido
+- Botón "¿Primera vez? Explicación rápida" con panel desplegable que explica el funcionamiento paso a paso.
+
+## [2.1.1] - 2026-02-18
+### Cambiado
+- Separación de estilos: todos los CSS del generador se movieron a `styles.css` para mantener consistencia con el index.
+
+## [2.1] - 2026-02-18
+### Añadido
+- Posibilidad de definir una plantilla de resumen independiente.
+- En el paso de resultados se muestra tanto el mensaje principal como el resumen (si se definió).
+- Botón "Copiar resumen" que copia el contenido generado con esa plantilla.
+
+## [2.0] - 2026-02-18
+### Añadido
+- Versión inicial del generador de mensajes con wizard de 4 pasos.
+- Carga de archivos Excel/CSV mediante SheetJS.
+- Formato automático de números a moneda MXN.
+- Navegación fila por fila y copiado individual.
 
 
 ## [2.0.0] - 2026-02-16
