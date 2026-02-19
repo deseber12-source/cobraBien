@@ -55,6 +55,7 @@
             adicionales: []
         },
         plantilla: '',
+        plantillaResumen: '',   // NUEVA
         datos: [],
         cabeceras: [],
         cabecerasOriginales: [],
@@ -67,6 +68,11 @@
     const agregarVarBtn = document.getElementById('agregar-variable');
     const contenedorAdicionales = document.getElementById('variables-adicionales-container');
     const plantillaTextarea = document.getElementById('plantilla-mensaje');
+    // NUEVAS referencias para resumen
+    const habilitarResumenCheck = document.getElementById('habilitar-resumen');
+    const resumenContainer = document.getElementById('resumen-container');
+    const plantillaResumenTextarea = document.getElementById('plantilla-resumen');
+
     const fileInput = document.getElementById('file-input');
     const fileArea = document.getElementById('file-upload-area');
     const previewContainer = document.getElementById('preview-container');
@@ -78,19 +84,18 @@
     const step3Prev = document.getElementById('step3-prev');
     const step3Next = document.getElementById('step3-next');
     const step4Prev = document.getElementById('step4-prev');
-    const copiarTodosResumen = document.getElementById('copiar-todos-resumen');
     const reiniciarBtn = document.getElementById('reiniciar-btn');
     const resultadoAnterior = document.getElementById('resultado-anterior');
     const resultadoSiguiente = document.getElementById('resultado-siguiente');
     const contadorFila = document.getElementById('contador-fila');
     const resultadoActual = document.getElementById('resultado-actual');
 
-    // Utilidad para normalizar texto (minúsculas, sin espacios extras, guiones bajos)
+    // Utilidad para normalizar texto
     function normalizar(str) {
         return String(str).trim().toLowerCase().replace(/\s+/g, '_');
     }
 
-    // Guardar variables desde inputs (normalizadas)
+    // Guardar variables desde inputs
     function guardarVariables() {
         state.variables.correo = normalizar(varCorreo.value) || 'correo';
         state.variables.nombre = normalizar(varNombre.value) || 'nombre';
@@ -101,7 +106,7 @@
         actualizarChecklistVariables();
     }
 
-    // Actualizar lista de variables disponibles en paso 2
+    // Actualizar lista de variables disponibles
     function actualizarChecklistVariables() {
         const todasLasVariables = [state.variables.correo, state.variables.nombre, ...state.variables.adicionales];
         const container = document.getElementById('variables-disponibles');
@@ -130,6 +135,14 @@
         contenedorAdicionales.appendChild(div);
     });
 
+    // Evento para mostrar/ocultar campo de resumen
+    habilitarResumenCheck.addEventListener('change', function() {
+        resumenContainer.style.display = this.checked ? 'block' : 'none';
+        if (!this.checked) {
+            plantillaResumenTextarea.value = ''; // limpiar si se desmarca
+        }
+    });
+
     // Eventos de navegación
     step1Next.addEventListener('click', () => {
         guardarVariables();
@@ -146,6 +159,12 @@
         if (!state.plantilla) {
             mostrarToast('❌ Escribe una plantilla');
             return;
+        }
+        // Guardar plantilla de resumen si está habilitada
+        if (habilitarResumenCheck.checked) {
+            state.plantillaResumen = plantillaResumenTextarea.value;
+        } else {
+            state.plantillaResumen = '';
         }
         goToStep(3);
     });
@@ -177,26 +196,18 @@
         reader.onload = (e) => {
             try {
                 let data;
-                // Si es CSV, podríamos necesitar convertir a UTF-8
                 if (file.name.endsWith('.csv')) {
-                    // Leer como texto y luego convertir a UTF-8
                     const csvText = e.target.result;
-                    // Convertir a UTF-8 si no lo está (aquí asumimos que el navegador ya lo decodificó bien)
-                    // Pero para asegurar, usamos TextDecoder si es necesario
-                    // Lo más simple: asumir que FileReader ya devuelve texto en UTF-8
                     data = csvText;
                 } else {
-                    // Para Excel, usar el array buffer
                     const arrayBuffer = e.target.result;
                     data = new Uint8Array(arrayBuffer);
                 }
 
                 let workbook;
                 if (typeof data === 'string') {
-                    // Es CSV, leer como string
                     workbook = XLSX.read(data, { type: 'string' });
                 } else {
-                    // Es Excel, leer como array
                     workbook = XLSX.read(data, { type: 'array' });
                 }
 
@@ -212,9 +223,9 @@
                 state.cabecerasOriginales = cabecerasOriginales;
                 state.cabeceras = cabecerasNorm;
 
-                guardarVariables(); // actualizar variables
+                guardarVariables();
 
-                // Verificar que existan las obligatorias normalizadas
+                // Verificar obligatorias
                 if (!cabecerasNorm.includes(state.variables.correo) || !cabecerasNorm.includes(state.variables.nombre)) {
                     mostrarToast(`❌ No se encontraron las columnas obligatorias. Buscamos: "${state.variables.correo}" y "${state.variables.nombre}" en las columnas: ${cabecerasOriginales.join(', ')}`);
                     return;
@@ -227,14 +238,13 @@
                     return;
                 }
 
-                // Convertir filas a objetos (usando cabeceras originales)
+                // Convertir filas a objetos
                 state.datos = [];
                 for (let i = 1; i < rows.length; i++) {
                     const row = rows[i];
                     const obj = {};
                     cabecerasOriginales.forEach((col, idx) => {
                         let valor = row[idx] !== undefined ? row[idx] : '';
-                        // Intentar convertir a número si es posible
                         if (typeof valor === 'string' && valor.trim() !== '' && !isNaN(valor)) {
                             valor = parseFloat(valor);
                         }
@@ -249,7 +259,6 @@
                     state.datos = state.datos.slice(0, 1000);
                 }
 
-                // Mostrar vista previa
                 mostrarPreview();
                 step3Next.disabled = false;
             } catch (error) {
@@ -259,7 +268,7 @@
         };
 
         if (file.name.endsWith('.csv')) {
-            reader.readAsText(file, 'UTF-8'); // Forzar UTF-8 para CSV
+            reader.readAsText(file, 'UTF-8');
         } else {
             reader.readAsArrayBuffer(file);
         }
@@ -295,12 +304,10 @@
         goToStep(4);
     });
 
-    // Función para reemplazar variables en la plantilla con formato
-    function aplicarPlantilla(fila) {
-        let mensaje = state.plantilla;
-        // Obtener todas las variables definidas (normalizadas)
+    // Función para reemplazar variables en una plantilla
+    function aplicarPlantilla(plantilla, fila) {
+        let mensaje = plantilla;
         const todasLasVariables = [state.variables.correo, state.variables.nombre, ...state.variables.adicionales];
-        // Mapear variable normalizada -> columna original
         const mapa = {};
         state.cabecerasOriginales.forEach((orig, idx) => {
             mapa[state.cabeceras[idx]] = orig;
@@ -310,7 +317,6 @@
             const colOriginal = mapa[varNorm];
             if (colOriginal) {
                 let valor = fila[colOriginal];
-                // Si es número, formatear como moneda
                 if (typeof valor === 'number') {
                     valor = formatoMXN(valor);
                 } else if (typeof valor === 'string' && !isNaN(parseFloat(valor))) {
@@ -327,19 +333,31 @@
     function mostrarFilaActual() {
         if (!state.datos.length) return;
         const fila = state.datos[state.filaActual];
-        const mensaje = aplicarPlantilla(fila);
+        const mensaje = aplicarPlantilla(state.plantilla, fila);
+        const resumen = state.plantillaResumen ? aplicarPlantilla(state.plantillaResumen, fila) : '';
+
         const correo = fila[state.cabecerasOriginales[state.cabeceras.indexOf(state.variables.correo)]] || '';
         const nombre = fila[state.cabecerasOriginales[state.cabeceras.indexOf(state.variables.nombre)]] || '';
 
-        // Actualizar contador
         contadorFila.textContent = `Fila ${state.filaActual + 1} de ${state.datos.length}`;
         resultadoAnterior.disabled = state.filaActual === 0;
         resultadoSiguiente.disabled = state.filaActual === state.datos.length - 1;
 
-        // Renderizar resultado actual
-        resultadoActual.innerHTML = `
+        // Construir HTML del resultado
+        let html = `
             <div><strong>📧 ${correo}</strong> (${nombre})</div>
-            <div style="background:var(--bg-color); padding:0.8rem; border-radius:0.8rem; margin:0.5rem 0; white-space: pre-wrap;">${mensaje}</div>
+            <div style="background:var(--bg-color); padding:0.8rem; border-radius:0.8rem; margin:0.5rem 0; white-space: pre-wrap;"><strong>Mensaje:</strong> ${mensaje}</div>
+        `;
+
+        if (state.plantillaResumen) {
+            html += `
+                <div style="background:var(--bg-color); padding:0.8rem; border-radius:0.8rem; margin:0.5rem 0; white-space: pre-wrap;"><strong>Resumen:</strong> ${resumen}</div>
+            `;
+        } else {
+            html += `<p><em>No se definió plantilla de resumen.</em></p>`;
+        }
+
+        html += `
             <div class="result-actions">
                 <button class="btn-sm btn-copiar" data-copiar="mensaje-actual">📋 Copiar mensaje</button>
                 <button class="btn-sm btn-copiar" data-copiar="correo-actual">✉️ Copiar correo</button>
@@ -347,8 +365,10 @@
             </div>
             <textarea id="mensaje-actual" style="display:none;">${mensaje}</textarea>
             <textarea id="correo-actual" style="display:none;">${correo}</textarea>
-            <textarea id="resumen-actual" style="display:none;">Mensaje enviado a ${nombre} (${correo}) - Cuerpo: ${mensaje.substring(0, 100)}${mensaje.length > 100 ? '…' : ''}</textarea>
+            <textarea id="resumen-actual" style="display:none;">${resumen || ''}</textarea>
         `;
+
+        resultadoActual.innerHTML = html;
 
         // Reasignar eventos a los botones de copiar
         resultadoActual.querySelectorAll('.btn-copiar').forEach(btn => {
@@ -380,39 +400,25 @@
 
     step4Prev.addEventListener('click', () => goToStep(3));
 
-    copiarTodosResumen.addEventListener('click', () => {
-        const resumenes = [];
-        for (let i = 0; i < state.datos.length; i++) {
-            const fila = state.datos[i];
-            const mensaje = aplicarPlantilla(fila);
-            const correo = fila[state.cabecerasOriginales[state.cabeceras.indexOf(state.variables.correo)]] || '';
-            const nombre = fila[state.cabecerasOriginales[state.cabeceras.indexOf(state.variables.nombre)]] || '';
-            resumenes.push(`Mensaje enviado a ${nombre} (${correo}) - Cuerpo: ${mensaje.substring(0, 100)}${mensaje.length > 100 ? '…' : ''}`);
-        }
-        if (resumenes.length) {
-            navigator.clipboard.writeText(resumenes.join('\n---\n')).then(() => {
-                mostrarToast(`✅ ${resumenes.length} resúmenes copiados`);
-            });
-        }
-    });
-
     // Botón reiniciar
     reiniciarBtn.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres reiniciar todo? Se perderán los datos cargados.')) {
-            // Limpiar estado
             state = {
                 variables: { correo: 'correo', nombre: 'nombre', adicionales: [] },
                 plantilla: '',
+                plantillaResumen: '',
                 datos: [],
                 cabeceras: [],
                 cabecerasOriginales: [],
                 filaActual: 0
             };
-            // Limpiar inputs
             varCorreo.value = 'correo';
             varNombre.value = 'nombre';
             contenedorAdicionales.innerHTML = '';
             plantillaTextarea.value = '';
+            plantillaResumenTextarea.value = '';
+            habilitarResumenCheck.checked = false;
+            resumenContainer.style.display = 'none';
             fileInput.value = '';
             previewContainer.style.display = 'none';
             step3Next.disabled = true;
@@ -425,7 +431,7 @@
     // Inicializar
     actualizarChecklistVariables();
 
-    // Botón sugerencia
+    // Botón sugerencia (actualiza con tu número real)
     document.getElementById('sugerencia-btn').addEventListener('click', () => {
         window.open('https://wa.me/521234567890?text=Hola%20equipo%20CobraBien,%20quiero%20enviarles%20una%20sugerencia%20sobre%20el%20generador%20de%20mensajes:', '_blank');
     });
