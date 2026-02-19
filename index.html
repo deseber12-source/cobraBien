@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Herramientas profesionales para cobranza en México: calculadoras, scripts, recordatorios y más. Gratis y fáciles de usar.">
     <link rel="stylesheet" href="styles.css">
-    <!-- Google Analytics (reemplaza G-XXX por tu ID) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -103,6 +103,11 @@
                     <div class="resultado">
                         <p><strong>Monto final:</strong> <span id="descuento-monto-final">$0.00</span></p>
                     </div>
+                    <!-- Checkbox de redondeo -->
+                    <div style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="descuento-redondear">
+                        <label for="descuento-redondear" style="font-size:0.9rem;">🔝 Redondear hacia arriba <span style="opacity:0.7;">(para que no falte ni un centavo)</span></label>
+                    </div>
                     <div class="plantilla-personalizada">
                         <label>✏️ Tu plantilla (opcional):</label>
                         <textarea id="descuento-plantilla" rows="2" placeholder="Ej: Hola, tu saldo de {{saldo}} con descuento del {{porcentaje}}% queda en {{montoFinal}} hasta el {{fecha}}."></textarea>
@@ -153,6 +158,11 @@
                         <p><strong>Anticipo:</strong> <span id="porcentaje-anticipo">$0.00</span></p>
                         <p><strong>Mensualidad:</strong> <span id="porcentaje-mensualidad">$0.00</span></p>
                     </div>
+                    <!-- Checkbox de redondeo -->
+                    <div style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="porcentaje-redondear">
+                        <label for="porcentaje-redondear" style="font-size:0.9rem;">🔝 Redondear hacia arriba <span style="opacity:0.7;">(anticipo y mensualidades)</span></label>
+                    </div>
                     <div class="plantilla-personalizada">
                         <label>✏️ Tu plantilla:</label>
                         <textarea id="porcentaje-plantilla" rows="2" placeholder="Ej: Hola, puedes dar un anticipo de {{anticipo}} y {{meses}} mensualidades de {{mensualidad}}."></textarea>
@@ -201,6 +211,11 @@
                     </div>
                     <div class="resultado">
                         <p><strong>Mensualidad:</strong> <span id="monto-mensualidad">$0.00</span></p>
+                    </div>
+                    <!-- Checkbox de redondeo -->
+                    <div style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="monto-redondear">
+                        <label for="monto-redondear" style="font-size:0.9rem;">🔝 Redondear hacia arriba <span style="opacity:0.7;">(mensualidades)</span></label>
                     </div>
                     <div class="plantilla-personalizada">
                         <label>✏️ Tu plantilla:</label>
@@ -412,7 +427,7 @@
                 </div>
                 <p class="footer-credito">
                     Creado por Ismael Palencia, 2026 · Todos los derechos reservados. |
-                    <a href="versiones.html" style="color: var(--primary-green);">Novedades v2.4</a>
+                    <a href="versiones.html" style="color: var(--primary-green);">Novedades v2.4.1</a>
                 </p>
             </div>
         </div>
