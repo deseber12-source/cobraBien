@@ -6,14 +6,6 @@
     <title>Novedades · CobraBien</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Historial de versiones y novedades de CobraBien.">
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-80WCM4B3E6');
-    </script>
     <link rel="stylesheet" href="styles.css">
     <!-- Fuente Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,6 +38,20 @@
             <h2 style="margin-bottom: 2rem; color: var(--primary-green);">Historial de versiones y novedades</h2>
 
             <div class="versions-list">
+                <!-- Versión 2.5.0 -->
+                <div class="version-card">
+                    <h3>[2.5.0] - 2026-02-19</h3>
+                    <ul>
+                        <li><strong>✨ Añadido:</strong> Nueva página <code>privacidad.html</code> con información detallada sobre privacidad, seguridad, procesamiento local de archivos y uso de cookies. Diseño coherente con el resto del sitio.</li>
+                        <li><strong>✨ Añadido:</strong> Banner de consentimiento de cookies en todas las páginas. Guarda la preferencia en <code>localStorage</code> y carga Google Analytics solo después de la aceptación.</li>
+                        <li><strong>✨ Añadido:</strong> Mensaje informativo en el generador de mensajes indicando que los archivos se procesan 100% localmente en el navegador. También visible en la tarjeta del generador en <code>index.html</code>.</li>
+                        <li><strong>✨ Añadido:</strong> Enlace a la página de privacidad en el footer de todas las páginas.</li>
+                        <li><strong>🔧 Cambiado:</strong> Refactorización del script de Google Analytics para cargarse dinámicamente solo con consentimiento del usuario.</li>
+                        <li><strong>🔧 Cambiado:</strong> Mejora visual y de experiencia del banner de cookies, compatible con modo claro y oscuro.</li>
+                        <li><strong>🐛 Corregido:</strong> Se solucionó un problema donde Google Analytics se cargaba sin consentimiento, evitando posibles infracciones de privacidad.</li>
+                        <li><strong>🧠 Detalles técnicos:</strong> Implementación de banner al final del <code>&lt;body&gt;</code>, verificación con <code>localStorage</code> y carga dinámica de GA. Reutilización de clases existentes para mantener consistencia visual.</li>
+                    </ul>
+                </div>
                 <!-- Versión 2.4.1 -->
                 <div class="version-card">
                     <h3>[2.4.1] - 2026-02-18</h3>
@@ -175,10 +181,47 @@
             <p class="footer-credito">
                 ¿Te gustó la herramienta o tienes alguna sugerencia? ¡Queremos mejorar! Escríbenos por WhatsApp. <br>
                 Creado por Ismael Palencia, 2026 · Todos los derechos reservados.
+                <a href="versiones.html">Novedades</a> |
+                <a href="privacidad.html">Privacidad</a>
             </p>
         </div>
     </footer>
 
     <div id="toast" class="toast hidden">✅ Copiado</div>
+    <div id="cookie-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); color: var(--text-color); padding: 1rem; text-align: center; border-top: 1px solid var(--border-color); z-index: 10000; box-shadow: var(--shadow); display: none;">
+        🍪 Usamos cookies de Google Analytics para mejorar tu experiencia. Al hacer clic en "Aceptar", consientes su uso.
+        <button id="accept-cookies" class="btn-sm" style="background: var(--primary-green); color: white; border: none; margin: 0 0.5rem;">Aceptar</button>
+        <a href="privacidad.html" style="color: var(--primary-green);">Más información</a>
+    </div>
+    <script>
+        function cargarGoogleAnalytics() {
+            const script1 = document.createElement('script');
+            script1.async = true;
+            script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6';
+            document.head.appendChild(script1);
+
+            const script2 = document.createElement('script');
+            script2.innerHTML = `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-80WCM4B3E6');
+            `;
+            document.head.appendChild(script2);
+        }
+
+        if (localStorage.getItem('cookiesAccepted')) {
+            document.getElementById('cookie-banner').style.display = 'none';
+            cargarGoogleAnalytics();
+        } else {
+            document.getElementById('cookie-banner').style.display = 'block';
+        }
+
+        document.getElementById('accept-cookies').addEventListener('click', function() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookie-banner').style.display = 'none';
+            cargarGoogleAnalytics();
+        });
+    </script>
 </body>
 </html>

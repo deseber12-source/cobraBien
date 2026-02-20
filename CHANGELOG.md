@@ -2,6 +2,46 @@
 
 Todas las mejoras y correcciones notables del proyecto se documentarán en este archivo.
 
+## [2.5.0] - 2026-02-19
+
+### ✨ Añadido
+- **Nueva página de privacidad y seguridad (`privacidad.html`)**
+  - Explica detalladamente que el procesamiento de archivos en el generador de mensajes es 100% local (sin envío a servidores).
+  - Informa sobre el uso de Google Analytics, con enlace a la política de cookies.
+  - Incluye secciones sobre derechos del usuario (GDPR) y seguridad del sitio (HTTPS, GitHub Pages).
+  - Diseño coherente con el resto del sitio (tarjetas, colores, tipografía).
+
+- **Banner de consentimiento de cookies**
+  - Aparece en todas las páginas hasta que el usuario acepta.
+  - Almacena la preferencia en `localStorage` para no volver a mostrarse.
+  - El script de Google Analytics ahora se carga dinámicamente solo después de la aceptación, cumpliendo con normativas de privacidad (GDPR).
+
+- **Mensaje informativo en el generador de mensajes**
+  - En el paso 3 (subir archivo) se añadió una nota:  
+    `🔒 Tus archivos nunca se suben a ningún servidor. Todo el procesamiento ocurre en tu navegador.`
+  - También se incluyó un tooltip similar en la tarjeta del generador en `index.html`.
+
+- **Enlace a privacidad en el footer**
+  - Se agregó el enlace "Privacidad" junto a "Novedades" en el footer de todas las páginas (`index.html`, `generador-mensajes.html`, `versiones.html`).
+
+### 🔧 Cambiado
+- **Refactorización del script de Google Analytics**
+  - Se movió a un bloque condicional para cargar solo si el usuario ha aceptado las cookies.
+  - Se implementó la variable `window['ga-disable-G-XXXXXXXXXX']` para deshabilitar el rastreo en caso de no consentimiento (opcional, en el código se optó por carga dinámica).
+
+- **Mejora en la experiencia de usuario**
+  - El banner de cookies es consistente con el tema oscuro/claro (usa variables CSS).
+  - Se aseguró que el banner no interfiera con el menú flotante (z-index adecuado).
+
+### 🐛 Corregido
+- **Problema de carga duplicada de Google Analytics**
+  - Anteriormente, el script se cargaba siempre en el `<head>`, incluso sin consentimiento. Ahora se carga solo tras la aceptación, evitando posibles infracciones.
+
+### 🧠 Detalles técnicos
+- **Implementación del banner**: se añadió al final del `<body>` en todas las páginas, con un script inline que verifica `localStorage.getItem('cookiesAccepted')`. Si no existe, muestra el banner; al hacer clic en "Aceptar", guarda la preferencia y recarga la página para activar GA.
+- **Página de privacidad**: se creó con la misma estructura de `versiones.html`, reutilizando clases `.version-card` para dar formato a las secciones.
+- **Mensaje local en el generador**: se insertó un párrafo con estilo `color: var(--primary-green)` y un icono de candado para transmitir confianza.
+
 ## [2.4.1] - 2026-02-18
 
 ### ✨ Añadido

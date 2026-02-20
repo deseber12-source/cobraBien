@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacidad y seguridad · CobraBien</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <meta name="description" content="Información sobre privacidad y seguridad en CobraBien.">
+    <!-- Google Analytics (cargado con consentimiento) -->
+    <script>
+        // Comprobar si ya aceptó cookies
+        if (localStorage.getItem('cookiesAccepted') === 'true') {
+            // Cargar GA dinámicamente
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-80WCM4B3E6');
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="header-new">
+        <div class="container header-content">
+            <div class="logo-wrapper">
+                <img src="img/logo_sinfondo.png" alt="CobraBien" class="logo">
+                <div class="brand">
+                    <h1>CobraBien</h1>
+                    <p class="tagline">Hecho por cobradores, para cobradores</p>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://facebook.com/tuPagina" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="https://instagram.com/tuPagina" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="https://wa.me/521234567890" target="_blank"><img src="img/whatsapp.png" alt="WhatsApp"></a>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo claro/oscuro">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="index.html" class="back-link">← Volver a herramientas</a>
+            <h2 style="color: var(--primary-green); margin-bottom: 2rem;">Privacidad y seguridad en CobraBien</h2>
+
+            <div class="version-card" style="margin-bottom: 2rem;">
+                <h3>🔒 Procesamiento local de tus archivos</h3>
+                <p>En CobraBien, tu privacidad es nuestra prioridad. La herramienta <strong>Generador de mensajes</strong> funciona completamente en tu navegador. Esto significa que:</p>
+                <ul>
+                    <li>Los archivos Excel o CSV que subes <strong>nunca se envían a ningún servidor</strong>.</li>
+                    <li>Todo el procesamiento (lectura del archivo, reemplazo de variables, generación de mensajes) ocurre en tu propia computadora.</li>
+                    <li>No almacenamos ni tenemos acceso a los datos de tus clientes.</li>
+                </ul>
+                <p>Puedes comprobarlo desconectando internet después de cargar la página: la herramienta seguirá funcionando sin problemas.</p>
+            </div>
+
+            <div class="version-card" style="margin-bottom: 2rem;">
+                <h3>📊 Google Analytics</h3>
+                <p>Utilizamos Google Analytics para entender cómo interactúan los usuarios con nuestro sitio y así poder mejorarlo. Esta herramienta recopila información anónima como:</p>
+                <ul>
+                    <li>Páginas visitadas y tiempo de permanencia.</li>
+                    <li>Tipo de dispositivo y navegador.</li>
+                    <li>País aproximado (basado en la dirección IP, que es anonimizada).</li>
+                </ul>
+                <p>No recopilamos ni almacenamos datos personales identificables (como nombres, correos o direcciones).</p>
+                <p>Puedes gestionar tu consentimiento mediante el banner de cookies que aparece al entrar al sitio. Si prefieres no ser rastreado, puedes rechazar las cookies o instalar un bloqueador de anuncios.</p>
+            </div>
+
+            <div class="version-card" style="margin-bottom: 2rem;">
+                <h3>📝 Tus derechos</h3>
+                <p>En cumplimiento del Reglamento General de Protección de Datos (GDPR) de la Unión Europea y otras leyes aplicables, tienes derecho a:</p>
+                <ul>
+                    <li>Solicitar información sobre los datos que almacenamos (en nuestro caso, ninguno).</li>
+                    <li>Retirar tu consentimiento en cualquier momento (puedes borrar las cookies de tu navegador).</li>
+                </ul>
+                <p>Para cualquier duda, puedes contactarnos por WhatsApp (botón en el footer) o enviar un correo a [tu correo].</p>
+            </div>
+
+            <div class="version-card" style="margin-bottom: 2rem;">
+                <h3>🔐 Seguridad del sitio</h3>
+                <p>Este sitio está alojado en GitHub Pages, que proporciona HTTPS automático (comunicación cifrada). No utilizamos formularios que envíen datos personales, por lo que no hay riesgo de interceptación de información sensible.</p>
+                <p>Recomendamos mantener actualizado tu navegador y usar contraseñas seguras si decides implementar alguna función de login en el futuro.</p>
+            </div>
+
+            <p style="text-align: right; opacity: 0.7;">Última actualización: 19 de febrero de 2026</p>
+        </div>
+    </main>
+
+    <footer class="footer-new">
+        <div class="container footer-content">
+            <div class="footer-social">
+                <a href="https://facebook.com/tuPagina" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="https://instagram.com/tuPagina" target="_blank"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="https://wa.me/521234567890" target="_blank"><img src="img/whatsapp.png" alt="WhatsApp"></a>
+            </div>
+            <button id="sugerencia-btn" class="btn-sugerencia">📲 Enviar sugerencia</button>
+            <p class="footer-credito">
+                Creado por Ismael Palencia, 2026 · Todos los derechos reservados. |
+                <a href="versiones.html">Novedades</a> |
+                <a href="privacidad.html">Privacidad</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Toast (por si acaso) -->
+    <div id="toast" class="toast hidden">✅ Copiado</div>
+
+    <!-- Banner de cookies (oculto si ya aceptó) -->
+    <div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); color: var(--text-color); padding: 1rem; text-align: center; border-top: 1px solid var(--border-color); z-index: 10000; box-shadow: var(--shadow);">
+        🍪 Usamos cookies de Google Analytics para mejorar tu experiencia. Al hacer clic en "Aceptar", consientes su uso.
+        <button id="accept-cookies" class="btn-sm" style="background: var(--primary-green); color: white; border: none; margin: 0 0.5rem;">Aceptar</button>
+        <a href="privacidad.html" style="color: var(--primary-green);">Más información</a>
+    </div>
+    <script>
+        if (!localStorage.getItem('cookiesAccepted')) {
+            document.getElementById('cookie-banner').style.display = 'block';
+        }
+        document.getElementById('accept-cookies')?.addEventListener('click', function() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookie-banner').style.display = 'none';
+            // Recargar para activar GA (si ya estaba en el head, se activará)
+            location.reload();
+        });
+    </script>
+</body>
+</html>
