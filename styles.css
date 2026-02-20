@@ -857,9 +857,9 @@ body.dark .float-menu {
 
 .back-link {
     display: inline-block;
-    margin-top: 1.5rem;
+    margin-top: 1.5rem;     /* ← separa del header */
     margin-bottom: 2rem;
-    color: #000;
+    color: var(--primary-green);  /* ← ahora verde CobraBien */
     text-decoration: none;
     font-weight: 600;
 }
