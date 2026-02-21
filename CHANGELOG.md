@@ -2,6 +2,29 @@
 
 Todas las mejoras y correcciones notables del proyecto se documentarán en este archivo.
 
+## [2.5.2] - 2026-02-20
+
+### 🔧 Cambiado
+- **Refactorización del código de cookies y Google Analytics**
+  - Se extrajo toda la lógica de consentimiento de cookies y carga de GA a un archivo externo `cookies.js`.
+  - Se eliminaron los bloques de script repetidos en `index.html`, `generador-mensajes.html`, `privacidad.html` y `versiones.html`.
+  - Cada página ahora incluye `<script src="cookies.js" defer></script>` justo antes de cerrar `</body>`.
+  - Esto mejora la mantenibilidad y reduce la duplicación de código.
+
+### 🧠 Detalles técnicos
+- El banner HTML (`<div id="cookie-banner">`) permanece en cada archivo, pero su comportamiento se controla centralizadamente desde `cookies.js`.
+- Se mantiene el uso de `localStorage` para recordar la preferencia del usuario.
+- La carga de GA sigue siendo dinámica y solo ocurre después de la aceptación.
+
+## [2.5.1] - 2026-02-19
+
+### 🔧 Cambiado
+- **Estilo del enlace "Volver a herramientas"** en todas las páginas:
+  - Se cambió el color de azul (`var(--primary-blue)`) a verde (`var(--primary-green)`) para mantener coherencia con la paleta de la página.
+  - Se ajustó el espaciado: `margin-top: 1.5rem;` y se añadió un padding y borde redondeado sutil para mejorar la experiencia de clic.
+  - El hover ahora tiene un fondo verde muy tenue (`rgba(0, 180, 120, 0.08)`) en lugar de subrayado.
+- Este cambio aplica a `index.html`, `generador-mensajes.html`, `versiones.html` y `privacidad.html`.
+
 ## [2.5.0] - 2026-02-19
 
 ### ✨ Añadido

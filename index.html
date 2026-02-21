@@ -442,35 +442,6 @@
         <button id="accept-cookies" class="btn-sm" style="background: var(--primary-green); color: white; border: none; margin: 0 0.5rem;">Aceptar</button>
         <a href="privacidad.html" style="color: var(--primary-green);">Más información</a>
     </div>
-    <script>
-        function cargarGoogleAnalytics() {
-            const script1 = document.createElement('script');
-            script1.async = true;
-            script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6';
-            document.head.appendChild(script1);
-
-            const script2 = document.createElement('script');
-            script2.innerHTML = `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-80WCM4B3E6');
-            `;
-            document.head.appendChild(script2);
-        }
-
-        if (localStorage.getItem('cookiesAccepted')) {
-            document.getElementById('cookie-banner').style.display = 'none';
-            cargarGoogleAnalytics();
-        } else {
-            document.getElementById('cookie-banner').style.display = 'block';
-        }
-
-        document.getElementById('accept-cookies').addEventListener('click', function() {
-            localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookie-banner').style.display = 'none';
-            cargarGoogleAnalytics();
-        });
-    </script>
+    <script src="cookies.js" defer></script>
 </body>
 </html>

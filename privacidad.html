@@ -6,21 +6,6 @@
     <title>Privacidad y seguridad · CobraBien</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="description" content="Información sobre privacidad y seguridad en CobraBien.">
-    <!-- Google Analytics (cargado con consentimiento) -->
-    <script>
-        // Comprobar si ya aceptó cookies
-        if (localStorage.getItem('cookiesAccepted') === 'true') {
-            // Cargar GA dinámicamente
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6';
-            document.head.appendChild(script);
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-80WCM4B3E6');
-        }
-    </script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
@@ -117,16 +102,6 @@
         <button id="accept-cookies" class="btn-sm" style="background: var(--primary-green); color: white; border: none; margin: 0 0.5rem;">Aceptar</button>
         <a href="privacidad.html" style="color: var(--primary-green);">Más información</a>
     </div>
-    <script>
-        if (!localStorage.getItem('cookiesAccepted')) {
-            document.getElementById('cookie-banner').style.display = 'block';
-        }
-        document.getElementById('accept-cookies')?.addEventListener('click', function() {
-            localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookie-banner').style.display = 'none';
-            // Recargar para activar GA (si ya estaba en el head, se activará)
-            location.reload();
-        });
-    </script>
+    <script src="cookies.js" defer></script>
 </body>
 </html>

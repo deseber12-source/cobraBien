@@ -38,6 +38,20 @@
             <h2 style="margin-bottom: 2rem; color: var(--primary-green);">Historial de versiones y novedades</h2>
 
             <div class="versions-list">
+
+                <!-- Versión 2.5.1 -->
+                <div class="version-card">
+                    <h3>[2.5.1] - 2026-02-19</h3>
+                    <h3>🔧 Cambiado</h3>
+<ul>
+<li><strong>Estilo del enlace "Volver a herramientas"</strong> en todas las páginas:</li>
+<li>Se cambió el color de azul (<code>var(--primary-blue)</code>) a verde (<code>var(--primary-green)</code>) para mantener coherencia con la paleta de la página.</li>
+<li>Se ajustó el espaciado: <code>margin-top: 1.5rem;</code> y se añadió un padding y borde redondeado sutil para mejorar la experiencia de clic.</li>
+<li>El hover ahora tiene un fondo verde muy tenue (<code>rgba(0, 180, 120, 0.08)</code>) en lugar de subrayado.</li>
+<li>Este cambio aplica a <code>index.html</code>, <code>generador-mensajes.html</code>, <code>versiones.html</code> y <code>privacidad.html</code>.</li>
+</ul>
+                </div>
+
                 <!-- Versión 2.5.0 -->
                 <div class="version-card">
                     <h3>[2.5.0] - 2026-02-19</h3>
@@ -193,35 +207,6 @@
         <button id="accept-cookies" class="btn-sm" style="background: var(--primary-green); color: white; border: none; margin: 0 0.5rem;">Aceptar</button>
         <a href="privacidad.html" style="color: var(--primary-green);">Más información</a>
     </div>
-    <script>
-        function cargarGoogleAnalytics() {
-            const script1 = document.createElement('script');
-            script1.async = true;
-            script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-80WCM4B3E6';
-            document.head.appendChild(script1);
-
-            const script2 = document.createElement('script');
-            script2.innerHTML = `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-80WCM4B3E6');
-            `;
-            document.head.appendChild(script2);
-        }
-
-        if (localStorage.getItem('cookiesAccepted')) {
-            document.getElementById('cookie-banner').style.display = 'none';
-            cargarGoogleAnalytics();
-        } else {
-            document.getElementById('cookie-banner').style.display = 'block';
-        }
-
-        document.getElementById('accept-cookies').addEventListener('click', function() {
-            localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookie-banner').style.display = 'none';
-            cargarGoogleAnalytics();
-        });
-    </script>
+    <script src="cookies.js" defer></script>
 </body>
 </html>
